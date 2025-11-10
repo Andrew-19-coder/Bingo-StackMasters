@@ -70,6 +70,40 @@ public class Juego {
         }
     }
 
+    public boolean crearCartonManual(int[][] numerosManuales) {
+        if (!Carton.validarNumerosManuales(numerosManuales)) {
+            return false;
+        }
+        String id = "Carton-" + (cartones.size() + 1);
+        Carton nuevoCarton = new Carton(id, numerosManuales);
+        this.cartones.add(nuevoCarton);
+        return true;
+    }
+
+    public boolean ingresarBolaManual(int numero) {
+        boolean exito = tombola.ingresarBola(numero);
+        
+        if (exito) {
+            tablero.marcarNumero(numero);
+            for (Carton carton : cartones) {
+                carton.marcarNumero(numero);
+            }
+            verificarGanadores();
+        }
+        return exito;
+    }
+
+    public void desmarcarNumeroCartones(int numero) {
+        for (Carton carton : cartones) {
+            carton.desmarcarNumero(numero);
+        }
+    }
+
+    public void eliminarCarton(String id) {
+        cartones.removeIf(carton -> carton.getId().equals(id));
+    }
+    
+    
     public ArrayList<Carton> getCartones() {
         return cartones;
     }
