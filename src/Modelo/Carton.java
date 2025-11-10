@@ -72,10 +72,66 @@ private Random random;
         }
         return false;
     }
-
-    public void reiniciarMarcas() {
+   
+   public void reiniciarMarcas() {
         this.marcados = new boolean[5][5];
         this.marcados[2][2] = true;
+    }
+   
+   
+   
+   public Carton(String id, int[][] numerosManuales) {
+        this.id = id;
+        this.numeros = numerosManuales;
+        this.marcados = new boolean[5][5];
+        this.random = new Random();
+        
+        this.marcados[2][2] = true;
+    }
+
+    public void desmarcarNumero(int numero) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (this.numeros[i][j] == numero) {
+                    if (i != 2 || j != 2) { 
+                        this.marcados[i][j] = false;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public static boolean validarNumerosManuales(int[][] numeros) {
+        if (numeros == null || numeros.length != 5) {
+            return false;
+        }
+
+        for (int j = 0; j < 5; j++) {
+            int min = (j * 15) + 1;
+            int max = (j + 1) * 15;
+            boolean[] numerosColumna = new boolean[76];
+
+            for (int i = 0; i < 5; i++) {
+                if (numeros[i].length != 5) return false;
+                
+                int num = numeros[i][j];
+
+                if (i == 2 && j == 2) {
+                    if (num != 0) return false; 
+                    continue;
+                }
+
+                if (num < min || num > max) {
+                    return false; 
+                }
+                if (numerosColumna[num]) {
+                    return false; 
+                }
+                numerosColumna[num] = true;
+            }
+        }
+        return true;
     }
     
     
