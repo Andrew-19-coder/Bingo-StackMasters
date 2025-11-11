@@ -14,12 +14,15 @@ import java.awt.Component;
  * @author Joan
  */
 public class Controlador {
-  private Juego juego;
+    private Juego juego;
     private MainFrame vista;
+    private int modoActual = 0; 
+    private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     
     public Controlador() {
         this.juego = new Juego();
         this.vista = new MainFrame();
+        juego.setModoJuego(new ModoJuegoNormal());
         
         inicializarEventos();
         vista.setVisible(true);
@@ -79,6 +82,32 @@ public class Controlador {
          System.out.println("7. Panel actualizado");
     }
     
+    private void cambiarModoJuego() {
+    modoActual = (modoActual + 1) % 3; // Cicla entre 0, 1, 2
+    
+    ModoJuego modo;
+    switch(modoActual) {
+        case 0:
+            modo = new ModoJuegoNormal();
+            break;
+        case 1:
+            modo = new ModoJuegoCuatroEsquinas();
+            break;
+        case 2:
+            modo = new CartonLleno();
+            break;
+        default:
+            modo = new ModoJuegoNormal();
+    }
+    
+    juego.setModoJuego(modo);
+    vista.getBtnModoJuego().setText("Modo: " + nombresModos[modoActual]);
+    JOptionPane.showMessageDialog(vista, "Modo cambiado a: " + nombresModos[modoActual]);
+}
+    
+    
+    
+    
     private void sacarBola() {
         
         int numero = juego.sacarBolaAutomatica();
@@ -128,9 +157,4 @@ public class Controlador {
         actualizarCartonesVista();
     }
     
-    private void cambiarModoJuego() {
-        // Aquí implementarás la selección de modo
-        // Por ahora placeholder
-        JOptionPane.showMessageDialog(vista, "Funcionalidad de cambiar modo pendiente");
-    }
 }
