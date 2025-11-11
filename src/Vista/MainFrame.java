@@ -3,24 +3,72 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
-
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 
 /**
  *
  * @author Joan
  */
 public class MainFrame extends javax.swing.JFrame {
-
+private PanelFondoImagen panelFondo;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
-    }
+     String rutaImagen = "/Vista/resources/Imagen de WhatsApp 2025-11-08 a las 20.24.21_dc25733f.jpg";
+        panelFondo = new PanelFondoImagen(rutaImagen);
+        panelFondo.setLayout(new BorderLayout());
+        this.setContentPane(panelFondo);
+        
+        
+        // --- 2. ARREGLO PARA EL NORTE (TÍTULO Y BOTONES) ---
+        // Creamos un panel "contenedor" para apilarlos
+        
+        JPanel panelNorteContenedor = new JPanel();
+        // BoxLayout (Y_AXIS) apila los componentes verticalmente
+        panelNorteContenedor.setLayout(new BoxLayout(panelNorteContenedor, BoxLayout.Y_AXIS));
+        panelNorteContenedor.setOpaque(false); // ¡Hacerlo transparente!
+        
+        // Agregamos tus paneles al contenedor (los que NetBeans creó)
+        panelNorteContenedor.add(this.jPanel1); // El del título
+        panelNorteContenedor.add(this.jPanel2); // El de los botones
+        
+        
+        // --- 3. RE-AGREGA TODO AL FONDO (USANDO LOS NOMBRES CORRECTOS) ---
+        
+        // Agrega el contenedor (con el título y botones) al NORTE
+        panelFondo.add(panelNorteContenedor, BorderLayout.NORTH);
+        
+        // Agrega tu JScrollPane (jScrollPane2) al CENTRO
+        panelFondo.add(this.jScrollPane2, BorderLayout.CENTER);
+        
+        // Agrega la etiqueta al SUR (abajo)
+        panelFondo.add(this.lblUltimoNumero, BorderLayout.SOUTH);
+        
+        
+      
+        this.jPanel1.setOpaque(false);
+        this.jPanel2.setOpaque(false);
+        
+        // Tu etiqueta de abajo
+        this.lblUltimoNumero.setOpaque(false);
 
+       
+        this.jScrollPane2.setOpaque(false);
+        
+        // 2. Hace transparente el "visor" del scroll
+        this.jScrollPane2.getViewport().setOpaque(false);
+        
+        // 3. Hace transparente TU panel (el que está adentro)
+        this.panelCentral.setOpaque(false);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,13 +93,29 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnCrearCarton.setBackground(new java.awt.Color(51, 51, 51));
+        btnCrearCarton.setForeground(new java.awt.Color(255, 255, 255));
         btnCrearCarton.setText("Crear Carton");
+        btnCrearCarton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnCrearCarton.setFocusPainted(false);
 
+        btnSacarBola.setBackground(new java.awt.Color(51, 51, 51));
+        btnSacarBola.setForeground(new java.awt.Color(255, 255, 255));
         btnSacarBola.setText("Sacar Bola");
+        btnSacarBola.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnSacarBola.setFocusPainted(false);
 
+        btnModoJuego.setBackground(new java.awt.Color(51, 51, 51));
+        btnModoJuego.setForeground(new java.awt.Color(255, 255, 255));
         btnModoJuego.setText("Modo:Normal");
+        btnModoJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnModoJuego.setFocusPainted(false);
 
+        btnReiniciar.setBackground(new java.awt.Color(51, 51, 51));
+        btnReiniciar.setForeground(new java.awt.Color(255, 255, 255));
         btnReiniciar.setText("Reiniciar");
+        btnReiniciar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnReiniciar.setFocusPainted(false);
         btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReiniciarActionPerformed(evt);
@@ -67,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(btnCrearCarton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(105, 105, 105)
                 .addComponent(btnSacarBola, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
                 .addComponent(btnModoJuego)
                 .addGap(83, 83, 83)
                 .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -87,15 +151,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 204));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Bingo");
 
         lblUltimoNumero.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblUltimoNumero.setForeground(new java.awt.Color(0, 0, 255));
+        lblUltimoNumero.setForeground(new java.awt.Color(255, 255, 255));
         lblUltimoNumero.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUltimoNumero.setText("Ultimo Numero:");
 
+        panelCentral.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         jScrollPane2.setViewportView(panelCentral);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

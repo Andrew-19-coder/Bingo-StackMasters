@@ -140,6 +140,8 @@ public Carton getCarton() {
         lblIdCarton.setText("Carton-1");
         add(lblIdCarton, java.awt.BorderLayout.PAGE_START);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+
         lblB.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblB.setText("B");
@@ -160,6 +162,7 @@ public Carton getCarton() {
         lblO.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblO.setText("O");
 
+        lbl00.setBackground(new java.awt.Color(0, 0, 0));
         lbl00.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl00.setText("jLabel2");
 
@@ -269,7 +272,7 @@ public Carton getCarton() {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(242, 242, 242)
-                                .addComponent(lbl15, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE))
+                                .addComponent(lbl15, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lbl06, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,7 +344,7 @@ public Carton getCarton() {
                     .addComponent(lbl24)
                     .addComponent(lbl14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl09))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
