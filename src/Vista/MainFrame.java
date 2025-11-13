@@ -22,7 +22,7 @@ private PanelFondoImagen panelFondo;
      */
     public MainFrame() {
         initComponents();
-     String rutaImagen = "/Vista/resources/Imagen de WhatsApp 2025-11-08 a las 20.24.21_dc25733f.jpg";
+        String rutaImagen = "/Vista/resources/fondoBingo.jpg.jpg";
         panelFondo = new PanelFondoImagen(rutaImagen);
         panelFondo.setLayout(new BorderLayout());
         this.setContentPane(panelFondo);
