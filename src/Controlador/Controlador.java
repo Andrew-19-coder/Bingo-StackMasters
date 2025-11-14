@@ -85,6 +85,8 @@ public class Controlador {
     private void cambiarModoJuego() {
     modoActual = (modoActual + 1) % 3; // Cicla entre 0, 1, 2
     
+    ModoJuego cartonLleno = new cartonLleno();
+    
     ModoJuego modo;
     switch(modoActual) {
         case 0:
@@ -94,7 +96,7 @@ public class Controlador {
             modo = new ModoJuegoCuatroEsquinas();
             break;
         case 2:
-            modo = new CartonLleno();
+            modo = new CartonLlenoValidacion(cartonLleno,25);
             break;
         default:
             modo = new ModoJuegoNormal();
