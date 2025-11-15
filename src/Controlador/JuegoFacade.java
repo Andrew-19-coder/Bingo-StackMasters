@@ -7,6 +7,7 @@ import Modelo.*;
 import Vista.*;
 import javax.swing.*;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
@@ -77,7 +78,7 @@ public class JuegoFacade {
         return juego.getTombola();
     }
     
-    public int getBolasRestantes() {
+    public ArrayList<Integer> getBolasRestantes() {
         return juego.getTombola().getBolasDisponibles();
     }
     
