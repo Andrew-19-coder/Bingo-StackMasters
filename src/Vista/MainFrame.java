@@ -31,28 +31,22 @@ private PanelTombola panelTombola;
         panelTombola = new PanelTombola();
         
         
-        // --- 2. ARREGLO PARA EL NORTE (TÍTULO Y BOTONES) ---
-        // Creamos un panel "contenedor" para apilarlos
+      
         
         JPanel panelNorteContenedor = new JPanel();
-        // BoxLayout (Y_AXIS) apila los componentes verticalmente
+      
         panelNorteContenedor.setLayout(new BoxLayout(panelNorteContenedor, BoxLayout.Y_AXIS));
-        panelNorteContenedor.setOpaque(false); // ¡Hacerlo transparente!
+        panelNorteContenedor.setOpaque(false); 
         
-        // Agregamos tus paneles al contenedor (los que NetBeans creó)
-        panelNorteContenedor.add(this.jPanel1); // El del título
-        panelNorteContenedor.add(this.jPanel2); // El de los botones
+       
+        panelNorteContenedor.add(this.jPanel1); 
+        panelNorteContenedor.add(this.jPanel2);         
         
-        
-        // --- 3. RE-AGREGA TODO AL FONDO (USANDO LOS NOMBRES CORRECTOS) ---
-        
-        // Agrega el contenedor (con el título y botones) al NORTE
         panelFondo.add(panelNorteContenedor, BorderLayout.NORTH);
         
-        // Agrega tu JScrollPane (jScrollPane2) al CENTRO
         panelFondo.add(this.jScrollPane2, BorderLayout.CENTER);
         
-        // Agrega la etiqueta al SUR (abajo)
+        
         panelFondo.add(this.lblUltimoNumero, BorderLayout.SOUTH);
         
         
@@ -60,16 +54,15 @@ private PanelTombola panelTombola;
         this.jPanel1.setOpaque(false);
         this.jPanel2.setOpaque(false);
         
-        // Tu etiqueta de abajo
+       
         this.lblUltimoNumero.setOpaque(false);
 
        
         this.jScrollPane2.setOpaque(false);
         
-        // 2. Hace transparente el "visor" del scroll
+       
         this.jScrollPane2.getViewport().setOpaque(false);
         
-        // 3. Hace transparente TU panel (el que está adentro)
         this.panelCentral.setOpaque(false);
     }
     /**
@@ -96,14 +89,10 @@ private PanelTombola panelTombola;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnCrearCarton.setBackground(new java.awt.Color(51, 51, 51));
-        btnCrearCarton.setForeground(new java.awt.Color(255, 255, 255));
         btnCrearCarton.setText("Crear Carton");
         btnCrearCarton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnCrearCarton.setFocusPainted(false);
 
-        btnSacarBola.setBackground(new java.awt.Color(51, 51, 51));
-        btnSacarBola.setForeground(new java.awt.Color(255, 255, 255));
         btnSacarBola.setText("Sacar Bola");
         btnSacarBola.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnSacarBola.setFocusPainted(false);
@@ -113,14 +102,10 @@ private PanelTombola panelTombola;
             }
         });
 
-        btnModoJuego.setBackground(new java.awt.Color(51, 51, 51));
-        btnModoJuego.setForeground(new java.awt.Color(255, 255, 255));
         btnModoJuego.setText("Modo:Normal");
         btnModoJuego.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnModoJuego.setFocusPainted(false);
 
-        btnReiniciar.setBackground(new java.awt.Color(51, 51, 51));
-        btnReiniciar.setForeground(new java.awt.Color(255, 255, 255));
         btnReiniciar.setText("Reiniciar");
         btnReiniciar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnReiniciar.setFocusPainted(false);

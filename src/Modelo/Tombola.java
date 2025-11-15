@@ -58,4 +58,8 @@ public class Tombola {
     public ArrayList<Integer> getBolasDisponibles() {
         return bolasDisponibles;
     }
+    
+    public int getBolasDisponibles() {
+    return bolasDisponibles.size();
+}
 }

@@ -16,8 +16,9 @@ public class Juego {
     private Tablero tablero;
     private ModoJuego modoActual; 
     private Carton cartonGanador; 
+    private static Juego instancia;
     
-    public Juego() {
+    private Juego() {
         this.cartones = new ArrayList<>();
         this.tombola = new Tombola();
         this.tablero = new Tablero();
@@ -25,9 +26,17 @@ public class Juego {
         this.cartonGanador = null;
     }
 
+    public static Juego getInstance() {
+        if (instancia == null) {
+            instancia = new Juego();
+        } 
+        return instancia;
+    }
+    
+    
     public void crearCartonAutomatico() {
         String id = "Carton-" + (cartones.size() + 1);
-        Carton nuevoCarton = new Carton(id);
+        Carton nuevoCarton = CartonFactory.crearCarton(id, "automatico");
         this.cartones.add(nuevoCarton);
     }
 
@@ -70,15 +79,11 @@ public class Juego {
         }
     }
 
-    public boolean crearCartonManual(int[][] numerosManuales) {
-        if (!Carton.validarNumerosManuales(numerosManuales)) {
-            return false;
-        }
-        String id = "Carton-" + (cartones.size() + 1);
-        Carton nuevoCarton = new Carton(id, numerosManuales);
-        this.cartones.add(nuevoCarton);
-        return true;
-    }
+    public void crearCartonManual() {
+    String id = "Carton-" + (cartones.size() + 1);
+    Carton nuevoCarton = CartonFactory.crearCarton(id, "manual");
+    this.cartones.add(nuevoCarton);
+}
 
     public boolean ingresarBolaManual(int numero) {
         boolean exito = tombola.ingresarBola(numero);

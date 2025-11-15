@@ -24,8 +24,6 @@ public class PanelFondoImagen extends JPanel  {
             if (url == null) {
                 throw new IOException("Error: No se pudo encontrar la imagen en la ruta: " + rutaRelativa);
             }
-            
-            // Cargamos la imagen usando ImageIO
             imagenFondo = ImageIO.read(url);
             
         } catch (IOException e) {
@@ -39,7 +37,6 @@ public class PanelFondoImagen extends JPanel  {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (imagenFondo != null) {
-            // Dibuja la imagen y la ESTIRA para que llene todo el panel
             g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
         }
     }

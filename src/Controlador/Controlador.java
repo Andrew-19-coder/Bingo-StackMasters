@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controlador;
+import Controlador.JuegoFacade;
 import Modelo.*;
 import Vista.*;
 import Vista.MainFrame;
@@ -17,23 +18,30 @@ import javax.swing.JDialog;
  * @author Joan
  */
 public class Controlador {
-    private Juego juego;
+    private JuegoFacade facade;
     private MainFrame vista;
     private Tombola tombola;
     private boolean modoManual = false;
     private int modoActual = 0; 
+    
+    private int modoActual = 0;
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
+    private TableroPanel tablero;
+    private Juego juego;
     
     public Controlador() {
-        this.juego = new Juego();
+        this.tablero = new TableroPanel();
+        this.juego = Juego.getInstance();
         this.vista = new MainFrame();
         this.tombola = new Tombola();
         juego.setModoJuego(new ModoJuegoNormal());
+        this.facade = new JuegoFacade(vista);
         
         inicializarEventos();
         vista.setVisible(true);
         inicializarTombola();
         mostrarTombola();
+        tablero.setVisible(true);
     }
     
     private void inicializarTombola() {
@@ -50,14 +58,12 @@ public class Controlador {
     }
     
     private void inicializarEventos() {
-     
         vista.getBtnCrearCarton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                crearCarton();
+                facade.crearNuevoCarton();
             }
         });
-        
         
         vista.getBtnSacarBola().addActionListener(new ActionListener() {
             @Override
@@ -66,68 +72,20 @@ public class Controlador {
             }
         });
         
-       
-        vista.getBtnReiniciar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reiniciarJuego();
-            }
-        });
-        
-       
         vista.getBtnModoJuego().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarModoJuego();
             }
         });
+        
+        vista.getBtnReiniciar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reiniciarJuego();
+            }
+        });
     }
-    
-    private void crearCarton() {
-        System.out.println("Botón presionado");
-        juego.crearCartonAutomatico();
-         System.out.println("2. Cartón creado en modelo");
-       
-        Carton nuevoCarton = juego.getCartones().get(juego.getCartones().size() - 1);
-          System.out.println("3. Cartón obtenido: " + nuevoCarton.getId());
-       
-        CartonPanel panelCarton = new CartonPanel();
-          System.out.println("4. CartonPanel creado");
-        panelCarton.inicializarCarton(nuevoCarton);
-        System.out.println("5. Cartón inicializado");
-       
-        vista.getPanelCentral().add(panelCarton);
-         System.out.println("6. Panel agregado");
-        vista.getPanelCentral().revalidate();
-        vista.getPanelCentral().repaint();
-         System.out.println("7. Panel actualizado");
-    }
-    
-    private void cambiarModoJuego() {
-    modoActual = (modoActual + 1) % 3; // Cicla entre 0, 1, 2
-    
-    ModoJuego modo;
-    switch(modoActual) {
-        case 0:
-            modo = new ModoJuegoNormal();
-            break;
-        case 1:
-            modo = new ModoJuegoCuatroEsquinas();
-            break;
-        case 2:
-            modo = new CartonLleno();
-            break;
-        default:
-            modo = new ModoJuegoNormal();
-    }
-    
-    juego.setModoJuego(modo);
-    vista.getBtnModoJuego().setText("Modo: " + nombresModos[modoActual]);
-    JOptionPane.showMessageDialog(vista, "Modo cambiado a: " + nombresModos[modoActual]);
-}
-    
-    
-    
     
     private void sacarBola() {
         int numero = tombola.sacarBola();
@@ -135,6 +93,19 @@ public class Controlador {
     if (numero == -1) {
         JOptionPane.showMessageDialog(vista, "No hay más bolas disponibles");
         return;
+        int numero = facade.sacarBolaAutomatica();
+        
+        if (numero == -1) {
+            JOptionPane.showMessageDialog(vista, "No hay más bolas disponibles");
+            return;
+        }
+        
+        if (facade.hayGanador()) {
+            JOptionPane.showMessageDialog(vista, 
+                "¡GANADOR! " + facade.obtenerIdGanador(),
+                "¡BINGO!",
+                JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     // Actualizar la interfaz de la tombola
@@ -185,16 +156,30 @@ public class Controlador {
                 panel.resaltarGanador();
                 }
             }
+    private void cambiarModoJuego() {
+        modoActual = (modoActual + 1) % 3;
+        
+        ModoJuego modo;
+        switch(modoActual) {
+            case 0:
+                modo = new ModoJuegoNormal();
+                break;
+            case 1:
+                modo = new ModoJuegoCuatroEsquinas();
+                break;
+            case 2:
+                modo = new cartonLleno();
+                break;
+            default:
+                modo = new ModoJuegoNormal();
         }
+        
+        facade.cambiarModoJuego(modo, nombresModos[modoActual]);
+        JOptionPane.showMessageDialog(vista, "Modo: " + nombresModos[modoActual]);
     }
     
     private void reiniciarJuego() {
-        // Reiniciar el MODELO
-        juego.reiniciarJuego();
-        
-        // Actualizar vista
-        vista.actualizarUltimoNumero(0);
-        actualizarCartonesVista();
+        facade.reiniciarJuego();
+        JOptionPane.showMessageDialog(vista, "Juego reiniciado");
     }
-    
 }
