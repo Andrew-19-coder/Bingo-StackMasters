@@ -17,6 +17,7 @@ import javax.swing.JLabel;
  */
 public class MainFrame extends javax.swing.JFrame {
 private PanelFondoImagen panelFondo;
+private PanelTombola panelTombola;
     /**
      * Creates new form MainFrame
      */
@@ -26,6 +27,8 @@ private PanelFondoImagen panelFondo;
         panelFondo = new PanelFondoImagen(rutaImagen);
         panelFondo.setLayout(new BorderLayout());
         this.setContentPane(panelFondo);
+        
+        panelTombola = new PanelTombola();
         
         
         // --- 2. ARREGLO PARA EL NORTE (TÍTULO Y BOTONES) ---
@@ -104,6 +107,11 @@ private PanelFondoImagen panelFondo;
         btnSacarBola.setText("Sacar Bola");
         btnSacarBola.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnSacarBola.setFocusPainted(false);
+        btnSacarBola.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacarBolaActionPerformed(evt);
+            }
+        });
 
         btnModoJuego.setBackground(new java.awt.Color(51, 51, 51));
         btnModoJuego.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,11 +124,6 @@ private PanelFondoImagen panelFondo;
         btnReiniciar.setText("Reiniciar");
         btnReiniciar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnReiniciar.setFocusPainted(false);
-        btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReiniciarActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -203,9 +206,9 @@ private PanelFondoImagen panelFondo;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarActionPerformed
+    private void btnSacarBolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarBolaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnReiniciarActionPerformed
+    }//GEN-LAST:event_btnSacarBolaActionPerformed
 public JButton getBtnCrearCarton() { 
     return btnCrearCarton; 
 }
@@ -226,6 +229,10 @@ public JPanel getPanelCentral() {
     return panelCentral; 
 }
 
+    public PanelTombola getPanelTombola() {
+        return panelTombola;
+    }
+    
 public JLabel getLblUltimoNumero() { 
     return lblUltimoNumero; 
 }

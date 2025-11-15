@@ -6,9 +6,12 @@ package Controlador;
 import Modelo.*;
 import Vista.*;
 import Vista.MainFrame;
+import java.awt.BorderLayout;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
 import java.awt.Component;
+import java.awt.Font;
+import javax.swing.JDialog;
 /**
  *
  * @author Joan
@@ -16,16 +19,34 @@ import java.awt.Component;
 public class Controlador {
     private Juego juego;
     private MainFrame vista;
+    private Tombola tombola;
+    private boolean modoManual = false;
     private int modoActual = 0; 
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     
     public Controlador() {
         this.juego = new Juego();
         this.vista = new MainFrame();
+        this.tombola = new Tombola();
         juego.setModoJuego(new ModoJuegoNormal());
         
         inicializarEventos();
         vista.setVisible(true);
+        inicializarTombola();
+        mostrarTombola();
+    }
+    
+    private void inicializarTombola() {
+        vista.getPanelTombola().setTombola(tombola);
+    }
+    
+    private void mostrarTombola() {
+        JDialog dialogTombola = new JDialog(vista, "Tombola", false);
+        dialogTombola.setLayout(new BorderLayout());
+        dialogTombola.add(vista.getPanelTombola());
+        dialogTombola.pack();
+        dialogTombola.setLocationRelativeTo(vista);
+        dialogTombola.setVisible(true);
     }
     
     private void inicializarEventos() {
@@ -109,40 +130,59 @@ public class Controlador {
     
     
     private void sacarBola() {
-        
-        int numero = juego.sacarBolaAutomatica();
-        
-        if (numero == -1) {
-            JOptionPane.showMessageDialog(vista, "No hay más bolas disponibles");
-            return;
-        }
-        
-        // Actualizar vista
-        vista.actualizarUltimoNumero(numero);
-        
-        // Actualizar todos los cartones visuales
-        actualizarCartonesVista();
-        
-        // Verificar ganador
-        if (juego.getCartonGanador() != null) {
-            JOptionPane.showMessageDialog(vista, 
-                "¡GANADOR! " + juego.getCartonGanador().getId(),
-                "¡Bingo!",
-                JOptionPane.INFORMATION_MESSAGE);
-        }
+        int numero = tombola.sacarBola();
+    
+    if (numero == -1) {
+        JOptionPane.showMessageDialog(vista, "No hay más bolas disponibles");
+        return;
+    }
+    
+    // Actualizar la interfaz de la tombola
+    vista.getPanelTombola().actualizarInterfaz();
+    
+    // Actualizar vista principal
+    String letra = obtenerLetraBingo(numero);
+    vista.getLblUltimoNumero().setText("Último número: " + letra + "-" + numero);
+    vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+    
+    // ⭐ MARCAR EN LOS CARTONES DEL JUEGO (MODELO)
+    juego.marcarNumero(numero);
+    
+    // ⭐ ACTUALIZAR TODOS LOS CARTONES VISUALES
+    actualizarCartonesVista();
+    
+    // Verificar ganador
+    if (juego.getCartonGanador() != null) {
+        JOptionPane.showMessageDialog(vista, 
+            "¡GANADOR! " + juego.getCartonGanador().getId(),
+            "¡Bingo!",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+    }
+    
+     private String obtenerLetraBingo(int numero) {
+        if (numero <= 15) return "B";
+        if (numero <= 30) return "I";
+        if (numero <= 45) return "N";
+        if (numero <= 60) return "G";
+        return "O";
     }
     
     private void actualizarCartonesVista() {
-        // Recorrer todos los CartonPanel de la vista y actualizarloss
+        System.out.println("Actualizando cartones en vista...");
+    
         for (int i = 0; i < vista.getPanelCentral().getComponentCount(); i++) {
-            if (vista.getPanelCentral().getComponent(i) instanceof CartonPanel) {
-                CartonPanel panel = (CartonPanel) vista.getPanelCentral().getComponent(i);
-                panel.actualizarMarcas();
-                
-                // Si es el ganador, resaltarlo
-                if (juego.getCartonGanador() != null && 
-                    panel.getCarton().getId().equals(juego.getCartonGanador().getId())) {
-                    panel.resaltarGanador();
+            Component comp = vista.getPanelCentral().getComponent(i);
+        
+            if (comp instanceof CartonPanel) {
+            CartonPanel panel = (CartonPanel) comp;
+            System.out.println("Actualizando CartonPanel: " + panel.getCarton().getId());
+            panel.actualizarMarcas();
+            
+            // Si es el ganador, resaltarlo
+            if (juego.getCartonGanador() != null && 
+                panel.getCarton().getId().equals(juego.getCartonGanador().getId())) {
+                panel.resaltarGanador();
                 }
             }
         }

@@ -92,6 +92,13 @@ public class Juego {
         }
         return exito;
     }
+    
+    public void marcarNumero(int numero) {
+    for (Carton carton : cartones) {
+        carton.marcarNumero(numero);
+    }
+        verificarGanadores();
+    }
 
     public void desmarcarNumeroCartones(int numero) {
         for (Carton carton : cartones) {
