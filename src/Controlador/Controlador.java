@@ -18,14 +18,17 @@ public class Controlador {
     private MainFrame vista;
     private int modoActual = 0; 
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
+    private TableroPanel tablero;
     
     public Controlador() {
+        this.tablero = new TableroPanel();
         this.juego = new Juego();
         this.vista = new MainFrame();
         juego.setModoJuego(new ModoJuegoNormal());
         
         inicializarEventos();
         vista.setVisible(true);
+        tablero.setVisible(true);
     }
     
     private void inicializarEventos() {
