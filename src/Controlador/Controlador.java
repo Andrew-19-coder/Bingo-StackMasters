@@ -20,7 +20,7 @@ public class Controlador {
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     
     public Controlador() {
-        this.juego = new Juego();
+        this.juego = Juego.getInstance();
         this.vista = new MainFrame();
         juego.setModoJuego(new ModoJuegoNormal());
         
