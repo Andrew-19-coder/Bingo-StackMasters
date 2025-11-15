@@ -54,4 +54,8 @@ public class Tombola {
     public int getUltimoNumeroCantado() {
         return ultimoNumeroCantado;
     }
+    
+    public int getBolasDisponibles() {
+    return bolasDisponibles.size();
+}
 }
