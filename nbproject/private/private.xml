@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Juego.java</file>
             <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Carton.java</file>
             <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Tablero.java</file>
@@ -22,6 +23,14 @@
             <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/CartonLlenoValidacion.java</file>
             <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Controlador/JuegoFacade.java</file>
             <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/TableroPanel.java</file>
+=======
+            <file>file:/C:/Users/itsth/OneDrive/Documentos/Java%20Projects/Bingo/src/Modelo/Tombola.java</file>
+            <file>file:/C:/Users/itsth/OneDrive/Documentos/Java%20Projects/Bingo/src/Vista/CartonPanel.java</file>
+            <file>file:/C:/Users/itsth/OneDrive/Documentos/Java%20Projects/Bingo/src/Controlador/Controlador.java</file>
+            <file>file:/C:/Users/itsth/OneDrive/Documentos/Java%20Projects/Bingo/src/Modelo/Juego.java</file>
+            <file>file:/C:/Users/itsth/OneDrive/Documentos/Java%20Projects/Bingo/src/Vista/MainFrame.java</file>
+            <file>file:/C:/Users/itsth/OneDrive/Documentos/Java%20Projects/Bingo/src/Modelo/Carton.java</file>
+>>>>>>> a337d9da28a5e862141c5a55c16d1300c2e6b101
         </group>
     </open-files>
 </project-private>
