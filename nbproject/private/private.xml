@@ -2,6 +2,33 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Juego.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Carton.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Tablero.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/Tombola.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/ModoJuego.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/MainFrame.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Main/Proyecto_BingoMVC.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Controlador/Controlador.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/Resources/fondoBingo.jpg.jpg</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/cartonLleno.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/ModoJuegoCuatroEsquinas.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/ModoJuegoNormal.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/PanelFondoImagen.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/CartonFactory.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/ModoJuegoDecorator.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Modelo/CartonLlenoValidacion.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Controlador/JuegoFacade.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/TableroPanel.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/Resources/67-number-3d-ball-red.png</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/Resources/star-icon-vector-illustration.jpg</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/CartonPanel.java</file>
+            <file>file:/C:/Users/Joan/Documents/Proyecto2%20DA/Bingo-StackMasters/src/Vista/PanelTombola.java</file>
+        </group>
+>>>>>>> fdfed0ea4ad59cabd30ae97002af449fd2aac940
     </open-files>
 </project-private>
