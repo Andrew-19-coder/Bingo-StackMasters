@@ -26,7 +26,7 @@ public void inicializarCarton(Carton carton) {
     this.carton = carton;
     this.lblNumeros = new JLabel[5][5];
     
-    lblNumeros[0][0] = lbl00; lblNumeros[0][1] = lbl05; lblNumeros[0][2] = lbl10; lblNumeros[0][3] = lbl15; lblNumeros[0][4] = lbl20;
+lblNumeros[0][0] = lbl00; lblNumeros[0][1] = lbl05; lblNumeros[0][2] = lbl10; lblNumeros[0][3] = lbl15; lblNumeros[0][4] = lbl20;
 lblNumeros[1][0] = lbl01; lblNumeros[1][1] = lbl06; lblNumeros[1][2] = lbl11; lblNumeros[1][3] = lbl16; lblNumeros[1][4] = lbl21;
 lblNumeros[2][0] = lbl02; lblNumeros[2][1] = lbl07; lblNumeros[2][2] = lbl12; lblNumeros[2][3] = lbl17; lblNumeros[2][4] = lbl22;
 lblNumeros[3][0] = lbl03; lblNumeros[3][1] = lbl08; lblNumeros[3][2] = lbl13; lblNumeros[3][3] = lbl18; lblNumeros[3][4] = lbl23;
