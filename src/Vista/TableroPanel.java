@@ -22,9 +22,9 @@ public class TableroPanel extends javax.swing.JPanel {
     }
     
     public void inicializar(Tablero tablero){
-         this.lblNumeros = new JLabel[5][5];
+         this.lblNumeros = new JLabel[5][15];
          this.tablero = tablero;
-        
+         
     }
 
     /**
