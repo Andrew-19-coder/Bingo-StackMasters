@@ -21,13 +21,11 @@ public class Controlador {
     private int modoActual = 0;
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     private TableroPanel tablero;
+    private Juego juego;
     
     public Controlador() {
-<<<<<<< HEAD
         this.tablero = new TableroPanel();
-        this.juego = new Juego();
-=======
->>>>>>> c0b793850ab929f2a50560656fcc9f9eda41d7b7
+        this.juego = Juego.getInstance();
         this.vista = new MainFrame();
         this.facade = new JuegoFacade(vista);
         

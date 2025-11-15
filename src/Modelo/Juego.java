@@ -16,7 +16,7 @@ public class Juego {
     private Tablero tablero;
     private ModoJuego modoActual; 
     private Carton cartonGanador; 
-     private static Juego instancia;
+    private static Juego instancia;
     
     private Juego() {
         this.cartones = new ArrayList<>();
@@ -26,10 +26,10 @@ public class Juego {
         this.cartonGanador = null;
     }
 
-      public static Juego getInstance() {
+    public static Juego getInstance() {
         if (instancia == null) {
             instancia = new Juego();
-        }
+        } 
         return instancia;
     }
     
