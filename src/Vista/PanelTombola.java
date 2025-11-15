@@ -17,10 +17,11 @@ public class PanelTombola extends javax.swing.JPanel {
      */
     public PanelTombola() {
         initComponents();
-        tombola = new Tombola();
-        actualizarInterfaz();
         
-        btnSacarBola.addActionListener(e -> {
+    }
+    
+    public void configurarEventosConFacade(Runnable onNumeroSacado, Runnable onNumeroIngresado) {
+    btnSacarBola.addActionListener(e -> {
         int numero = tombola.sacarBola();
         if (numero == -1) {
             JOptionPane.showMessageDialog(this, 
@@ -29,6 +30,7 @@ public class PanelTombola extends javax.swing.JPanel {
                 JOptionPane.INFORMATION_MESSAGE);
         } else {
             actualizarInterfaz();
+            onNumeroSacado.run();
         }
     });
     
@@ -38,6 +40,7 @@ public class PanelTombola extends javax.swing.JPanel {
             if (tombola.ingresarBola(numero)) {
                 txtNumero.setText("");
                 actualizarInterfaz();
+                onNumeroIngresado.run();
             } else {
                 JOptionPane.showMessageDialog(this, 
                     "Número inválido o ya cantado", 
@@ -53,7 +56,11 @@ public class PanelTombola extends javax.swing.JPanel {
     });
     
     txtNumero.addActionListener(e -> btnIngresar.doClick());
-    }
+}
+    
+    public void reiniciar() {
+    actualizarInterfaz();
+}
     
     public void setTombola(Tombola tombola) {
         this.tombola = tombola;

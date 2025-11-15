@@ -35,7 +35,6 @@ public class Controlador {
         this.tablero = new TableroPanel();
         this.juego = Juego.getInstance();
         this.vista = new MainFrame();
-        this.tombola = new Tombola();
         juego.setModoJuego(new ModoJuegoNormal());
         this.facade = new JuegoFacade(vista);
 
@@ -47,7 +46,41 @@ public class Controlador {
     }
 
     private void inicializarTombola() {
-        vista.getPanelTombola().setTombola(tombola);
+        vista.getPanelTombola().setTombola(facade.getTombola());
+         vista.getPanelTombola().configurarEventosConFacade(
+        () -> {
+            int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
+            
+            juego.marcarNumero(ultimoNum);
+            actualizarCartonesVista();
+            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
+            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+            actualizarCartonesVista();
+            
+            if (facade.hayGanador()) {
+                JOptionPane.showMessageDialog(vista, 
+                    "¡GANADOR! " + facade.obtenerIdGanador(),
+                    "¡BINGO!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        },
+        () -> {
+           int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
+             juego.marcarNumero(ultimoNum);
+             actualizarCartonesVista();
+           
+            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);          
+            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+            actualizarCartonesVista();
+            
+            if (facade.hayGanador()) {
+                JOptionPane.showMessageDialog(vista, 
+                    "¡GANADOR! " + facade.obtenerIdGanador(),
+                    "¡BINGO!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    );
     }
 
     private void mostrarTombola() {
@@ -64,13 +97,6 @@ public class Controlador {
             @Override
             public void actionPerformed(ActionEvent e) {
                 facade.crearNuevoCarton();
-            }
-        });
-
-        vista.getBtnSacarBola().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sacarBola();
             }
         });
 
@@ -180,6 +206,7 @@ public class Controlador {
 
     private void reiniciarJuego() {
         facade.reiniciarJuego();
+         vista.getPanelTombola().reiniciar();
         JOptionPane.showMessageDialog(vista, "Juego reiniciado");
     }
 }
