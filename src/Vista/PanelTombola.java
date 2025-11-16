@@ -63,27 +63,6 @@ public class PanelTombola extends javax.swing.JPanel {
         return tombola.getBolasDisponibles().size();
     }
 
-    public JToggleButton getBtnModoManual() {
-        return btnModoManual;
-    }
-
-    public void habilitarModoAutomatico() {
-        btnSacarBola.setEnabled(true);
-        btnIngresar.setEnabled(false);
-        txtManual.setEnabled(false);
-        txtManual.setText("");
-        btnModoManual.setText("Modo Manual: OFF");
-        btnModoManual.setBackground(new Color(51, 51, 51));
-    }
-
-    public void habilitarModoManual() {
-        btnSacarBola.setEnabled(false);
-        btnIngresar.setEnabled(true);
-        txtManual.setEnabled(true);
-        txtManual.requestFocus();
-        btnModoManual.setText("Modo Manual: ON");
-        btnModoManual.setBackground(new Color(255, 140, 0));
-    }
 
     public JTextField getTxtManual() {
         return txtManual;
@@ -91,6 +70,22 @@ public class PanelTombola extends javax.swing.JPanel {
 
     public JButton getBtnIngresar() {
         return btnIngresar;
+    }
+    
+    public JComboBox<String> getCmbModoJuego() {
+        return cmbModoJuego;
+    }
+
+    public void configurarModoAutomatico() {
+        btnSacarBola.setEnabled(true);
+        txtManual.setEnabled(false);
+        btnIngresar.setEnabled(false);
+    }
+
+    public void configurarModoManual() {
+        btnSacarBola.setEnabled(false);
+        txtManual.setEnabled(true);
+        btnIngresar.setEnabled(true);
     }
 
     /**
@@ -115,7 +110,9 @@ public class PanelTombola extends javax.swing.JPanel {
         lblNumeroActual = new javax.swing.JLabel();
         txtManual = new javax.swing.JTextField();
         btnIngresar = new javax.swing.JButton();
-        btnModoManual = new javax.swing.JToggleButton();
+        lblNumeroCantado = new javax.swing.JLabel();
+        lblModoJuego = new javax.swing.JLabel();
+        cmbModoJuego = new javax.swing.JComboBox<>();
         btnSacarBola = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
@@ -174,34 +171,51 @@ public class PanelTombola extends javax.swing.JPanel {
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("INGRESAR");
 
-        btnModoManual.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnModoManual.setText("MODO MANUAL");
+        lblNumeroCantado.setText("Numero Cantado:");
+
+        lblModoJuego.setText("Modo de Juego:");
+
+        cmbModoJuego.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automatico", "Manual" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(btnModoManual)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnIngresar)
-                .addGap(24, 24, 24))
             .addComponent(lblNumeroActual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNumeroCantado, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblModoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnIngresar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cmbModoJuego, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5, 5, 5)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIngresar)
-                    .addComponent(btnModoManual))
+                    .addComponent(lblModoJuego)
+                    .addComponent(cmbModoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNumeroCantado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)))
+                .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
@@ -217,8 +231,8 @@ public class PanelTombola extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
-    private javax.swing.JToggleButton btnModoManual;
     private javax.swing.JButton btnSacarBola;
+    private javax.swing.JComboBox<String> cmbModoJuego;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -228,7 +242,9 @@ public class PanelTombola extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblCantados;
+    private javax.swing.JLabel lblModoJuego;
     private javax.swing.JLabel lblNumeroActual;
+    private javax.swing.JLabel lblNumeroCantado;
     private javax.swing.JLabel lblRestantes;
     private javax.swing.JTextField txtManual;
     // End of variables declaration//GEN-END:variables
