@@ -34,43 +34,44 @@ public class CartonPanel extends javax.swing.JPanel {
     public void inicializarCarton(Carton carton) {
         this.carton = carton;
         this.lblNumeros = new JLabel[5][5];
+        
+        
+    lblNumeros[0][0] = lbl00;
+    lblNumeros[1][0] = lbl01;
+    lblNumeros[2][0] = lbl02;
+    lblNumeros[3][0] = lbl03;
+    lblNumeros[4][0] = lbl04;
+    lblNumeros[0][1] = lbl05;
+    lblNumeros[1][1] = lbl06;
+    lblNumeros[2][1] = lbl07;
+    lblNumeros[3][1] = lbl08;
+    lblNumeros[4][1] = lbl09;
+    lblNumeros[0][2] = lbl10;
+    lblNumeros[1][2] = lbl11;
+    lblNumeros[2][2] = lbl12; // LIBRE
+    lblNumeros[3][2] = lbl13;
+    lblNumeros[4][2] = lbl14;
+    lblNumeros[0][3] = lbl15;
+    lblNumeros[1][3] = lbl16;
+    lblNumeros[2][3] = lbl17;
+    lblNumeros[3][3] = lbl18;
+    lblNumeros[4][3] = lbl19;
+    lblNumeros[0][4] = lbl20;
+    lblNumeros[1][4] = lbl21;
+    lblNumeros[2][4] = lbl22;
+    lblNumeros[3][4] = lbl23;
+    lblNumeros[4][4] = lbl24;
 
-        lblNumeros[0][0] = lbl00;
-        lblNumeros[0][1] = lbl01;
-        lblNumeros[0][2] = lbl02;
-        lblNumeros[0][3] = lbl03;
-        lblNumeros[0][4] = lbl04;
-        lblNumeros[1][0] = lbl05;
-        lblNumeros[1][1] = lbl06;
-        lblNumeros[1][2] = lbl07;
-        lblNumeros[1][3] = lbl08;
-        lblNumeros[1][4] = lbl09;
-        lblNumeros[2][0] = lbl10;
-        lblNumeros[2][1] = lbl11;
-        lblNumeros[2][2] = lbl12;
-        lblNumeros[2][3] = lbl13;
-        lblNumeros[2][4] = lbl14;
-        lblNumeros[3][0] = lbl15;
-        lblNumeros[3][1] = lbl16;
-        lblNumeros[3][2] = lbl17;
-        lblNumeros[3][3] = lbl18;
-        lblNumeros[3][4] = lbl19;
-        lblNumeros[4][0] = lbl20;
-        lblNumeros[4][1] = lbl21;
-        lblNumeros[4][2] = lbl22;
-        lblNumeros[4][3] = lbl23;
-        lblNumeros[4][4] = lbl24;
-
-        if (esCartonVacio(carton)) {
-            inicializarVacio();
-            modoManual = true;
-        } else {
-            cargarNumeros();
-            modoManual = false;
-        }
-
-        lblIdCarton.setText(carton.getId());
+    if (esCartonVacio(carton)) {
+        inicializarVacio();
+        modoManual = true;
+    } else {
+        cargarNumeros();
+        modoManual = false;
     }
+
+    lblIdCarton.setText(carton.getId());
+}
 
     private boolean esCartonVacio(Carton carton) {
         int[][] numeros = carton.getNumeros();
@@ -144,49 +145,62 @@ public class CartonPanel extends javax.swing.JPanel {
     }
 
     public boolean agregarNumero(int numero) {
-        if (posicionActual >= 24) {
+        if (posicionActual >= 25) {
             return false;
         }
 
-        int col = posicionActual / 5;
-        int fila = posicionActual % 5;
+        
+        int columnaActual = posicionActual / 5;  // Columna que estamos llenando
+        int filaActual = posicionActual % 5;     // Fila dentro de esa columna
 
-        if (fila == 2 && col == 2) {
+        // Saltar LIBRE (fila 2, columna 2)
+        if (filaActual == 2 && columnaActual == 2) {
             posicionActual++;
-            if (posicionActual < 24) {
-                col = posicionActual / 5;
-                fila = posicionActual % 5;
+            if (posicionActual < 25) {
+                columnaActual = posicionActual / 5;
+                filaActual = posicionActual % 5;
+            } else {
+                return false;
             }
         }
 
-        int min = col * 15 + 1;
-        int max = (col + 1) * 15;
+       
+        int min = columnaActual * 15 + 1;
+        int max = (columnaActual + 1) * 15;
 
         if (numero < min || numero > max) {
             String[] letras = {"B", "I", "N", "G", "O"};
             JOptionPane.showMessageDialog(this,
-                    "El número debe estar entre " + min + "-" + max + " (columna " + letras[col] + ")");
+                    "El número debe estar entre " + min + "-" + max + " (columna " + letras[columnaActual] + ")",
+                    "Rango Inválido",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
+       
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (numerosTemporales[i][j] == numero) {
-                    JOptionPane.showMessageDialog(this, "El número " + numero + " ya existe");
+                    JOptionPane.showMessageDialog(this,
+                            "El número " + numero + " ya existe",
+                            "Número Repetido",
+                            JOptionPane.WARNING_MESSAGE);
                     return false;
                 }
             }
         }
 
-        lblNumeros[fila][col].setText(String.valueOf(numero));
-        lblNumeros[fila][col].setForeground(Color.BLACK);
-        numerosTemporales[fila][col] = numero;
+       
+        lblNumeros[filaActual][columnaActual].setText(String.valueOf(numero));
+        lblNumeros[filaActual][columnaActual].setForeground(Color.BLACK);
+        numerosTemporales[filaActual][columnaActual] = numero;
         posicionActual++;
 
-        if (posicionActual == 24) {
+        if (posicionActual == 25) {
             carton.setNumeros(numerosTemporales);
             modoManual = false;
-            JOptionPane.showMessageDialog(this, "¡Cartón " + carton.getId() + " completado!");
+            JOptionPane.showMessageDialog(this,
+                    "¡Cartón " + carton.getId() + " completado!");
         }
 
         return true;

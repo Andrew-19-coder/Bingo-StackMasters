@@ -38,26 +38,6 @@ public class PanelTombola extends javax.swing.JPanel {
             }
         });
 
-        btnIngresar.addActionListener(e -> {
-            try {
-                int numero = Integer.parseInt(txtManual.getText().trim());
-                if (tombola.ingresarBola(numero)) {
-                    txtManual.setText("");
-                    actualizarInterfaz();
-                    onNumeroIngresado.run();
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Número inválido o ya cantado",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Por favor ingrese un número válido",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        });
 
         txtManual.addActionListener(e -> btnIngresar.doClick());
     }
@@ -105,7 +85,13 @@ public class PanelTombola extends javax.swing.JPanel {
         btnModoManual.setText("Modo Manual: ON");
         btnModoManual.setBackground(new Color(255, 140, 0));
     }
+    public JTextField getTxtManual() {
+        return txtManual;
+    }
 
+    public JButton getBtnIngresar() {
+        return btnIngresar;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

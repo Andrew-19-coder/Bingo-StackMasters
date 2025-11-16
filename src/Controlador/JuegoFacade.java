@@ -151,6 +151,22 @@ public class JuegoFacade {
         juego.getTablero().marcarNumero(numero);
     }
 
+    public boolean desmarcarNumero(int numero) {
+    if (numero < 1 || numero > 75) {
+        return false;
+    }
+    
+  
+    for (Carton carton : juego.getCartones()) {
+        carton.desmarcarNumero(numero);
+    }
+    
+   
+    juego.getTablero().desmarcarNumero(numero);
+    
+    return true;
+}
+    
     private void actualizarVistaCompleta(int numero) {
         vista.actualizarUltimoNumero(numero);
         actualizarTodosLosCartones();

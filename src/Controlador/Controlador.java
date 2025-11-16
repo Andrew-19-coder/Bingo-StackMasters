@@ -26,6 +26,9 @@ public class Controlador {
     private Tombola tombola;
     private boolean modoManual = false;
     private int modoActual = 0;
+    private JDialog dialogTablero;
+    private TableroPanel tableroPanel;
+    private JDialog dialogTombola;
 
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     private TableroPanel tablero;
@@ -49,15 +52,27 @@ public class Controlador {
     private void inicializarTombola() {
         vista.getPanelTombola().setTombola(facade.getTombola());
         vista.getPanelTombola().getBtnModoManual().addActionListener(e -> toggleModoManual());
+        vista.getPanelTombola().getBtnIngresar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ingresarNumeroManual();
+            }
+        });
+
         vista.getPanelTombola().configurarEventosConFacade(
                 () -> {
+                   
                     int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
-
                     juego.marcarNumero(ultimoNum);
                     actualizarCartonesVista();
+
+                    
+                    if (tableroPanel != null) {
+                        tableroPanel.marcarNumero(ultimoNum);
+                    }
+
                     vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
                     vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
-                    actualizarCartonesVista();
 
                     if (facade.hayGanador()) {
                         JOptionPane.showMessageDialog(vista,
@@ -67,13 +82,18 @@ public class Controlador {
                     }
                 },
                 () -> {
+                   
                     int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
-                    juego.marcarNumero(ultimoNum);
-                    actualizarCartonesVista();
 
+                    if (modoManual && cartonEnEdicion != null && cartonEnEdicion.isModoManual()) {
+                        cartonEnEdicion.agregarNumero(ultimoNum);
+                    } else {
+                        juego.marcarNumero(ultimoNum);
+                    }
+
+                    actualizarCartonesVista();
                     vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
                     vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
-                    actualizarCartonesVista();
 
                     if (facade.hayGanador()) {
                         JOptionPane.showMessageDialog(vista,
@@ -86,11 +106,12 @@ public class Controlador {
     }
 
     private void mostrarTombola() {
-        JDialog dialogTombola = new JDialog(vista, "Tombola", false);
+        dialogTombola = new JDialog(vista, "Tombola", false);
         dialogTombola.setLayout(new BorderLayout());
         dialogTombola.add(vista.getPanelTombola());
         dialogTombola.pack();
         dialogTombola.setLocationRelativeTo(vista);
+        dialogTombola.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         dialogTombola.setVisible(true);
     }
 
@@ -102,6 +123,27 @@ public class Controlador {
             }
         });
 
+        vista.getBtnAbrirTombola().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirTombola();
+            }
+        });
+        vista.getBtnAbrirTablero().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirTablero();
+            }
+        });
+        
+        
+        vista.getBtnDesmarcar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desmarcarNumero();
+            }
+        });
+        
         vista.getBtnModoJuego().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -236,6 +278,130 @@ public class Controlador {
         JOptionPane.showMessageDialog(vista, "Modo: " + nombresModos[modoActual]);
     }
 
+    private void ingresarNumeroManual() {
+    String textoNumero = vista.getPanelTombola().getTxtManual().getText().trim();
+    
+    if (textoNumero.isEmpty()) {
+        JOptionPane.showMessageDialog(vista, "Ingresa un número");
+        return;
+    }
+    
+    int numero;
+    try {
+        numero = Integer.parseInt(textoNumero);
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(vista, "Número inválido");
+        return;
+    }
+    
+    if (numero < 1 || numero > 75) {
+        JOptionPane.showMessageDialog(vista, "El número debe estar entre 1 y 75");
+        return;
+    }
+    
+    if (modoManual && cartonEnEdicion != null && cartonEnEdicion.isModoManual()) {
+      
+        if (cartonEnEdicion.agregarNumero(numero)) {
+            vista.getPanelTombola().getTxtManual().setText("");
+        }
+    } else {
+        
+        if (juego.getTombola().ingresarBola(numero)) {
+            juego.marcarNumero(numero);
+            actualizarCartonesVista();
+            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(numero) + "-" + numero);
+            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+            vista.getPanelTombola().actualizarInterfaz();
+            vista.getPanelTombola().getTxtManual().setText("");
+            
+            if (tableroPanel != null) {
+                tableroPanel.marcarNumero(numero);
+            }
+            
+            if (facade.hayGanador()) {
+                JOptionPane.showMessageDialog(vista,
+                        "¡GANADOR! " + facade.obtenerIdGanador(),
+                        "¡BINGO!",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(vista, "Número inválido o ya cantado");
+        }
+    }
+}
+    
+    private void desmarcarNumero() {
+    String input = JOptionPane.showInputDialog(vista, 
+        "Ingresa el número a desmarcar (1-75):",
+        "Desmarcar Número",
+        JOptionPane.QUESTION_MESSAGE);
+    
+    if (input == null || input.trim().isEmpty()) {
+        return; // Usuario canceló
+    }
+    
+    try {
+        int numero = Integer.parseInt(input.trim());
+        
+        if (numero < 1 || numero > 75) {
+            JOptionPane.showMessageDialog(vista, 
+                "El número debe estar entre 1 y 75",
+                "Número Inválido",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        boolean desmarcado = facade.desmarcarNumero(numero);
+        
+        if (desmarcado) {
+            
+            actualizarCartonesVista();
+            
+           
+            if (tableroPanel != null) {
+                tableroPanel.desmarcarNumero(numero);
+            }
+            
+            JOptionPane.showMessageDialog(vista, 
+                "Número " + numero + " desmarcado correctamente",
+                "Éxito",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(vista, 
+                "El número " + numero + " no estaba marcado",
+                "Advertencia",
+                JOptionPane.WARNING_MESSAGE);
+        }
+        
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(vista, 
+            "Ingresa un número válido",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+    }
+}
+    
+    
+    private void abrirTablero() {
+    if (dialogTablero == null) {
+        dialogTablero = new JDialog(vista, "Tablero de Números - Bingo", false);
+        tableroPanel = new TableroPanel();
+        
+        dialogTablero.add(tableroPanel);
+        dialogTablero.setSize(1050, 400);
+        dialogTablero.setLocationRelativeTo(vista);
+        dialogTablero.setResizable(false);
+    }
+    dialogTablero.setVisible(true);
+}
+    
+    private void abrirTombola() {
+    if (dialogTombola != null) {
+        dialogTombola.setVisible(true);
+    }
+}
+    
+    
     private void reiniciarJuego() {
         facade.reiniciarJuego();
         vista.getPanelTombola().reiniciar();

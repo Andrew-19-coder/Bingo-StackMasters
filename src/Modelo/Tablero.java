@@ -10,9 +10,11 @@ package Modelo;
  */
 public class Tablero {
   private boolean[] numerosSalidos;
+   private boolean[] numerosMarcados;
 
     public Tablero() {
-        this.numerosSalidos = new boolean[76]; 
+        this.numerosSalidos = new boolean[76];
+         this.numerosMarcados = new boolean[75];
     }
 
     public void marcarNumero(int numero) {
@@ -21,6 +23,12 @@ public class Tablero {
         }
     }
 
+    public void desmarcarNumero(int numero) {
+    if (numero >= 1 && numero <= 75) {
+        numerosMarcados[numero - 1] = false;
+    }
+}
+    
     public void reiniciar() {
         this.numerosSalidos = new boolean[76];
     }

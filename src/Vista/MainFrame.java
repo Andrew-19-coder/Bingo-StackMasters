@@ -79,6 +79,9 @@ private PanelTombola panelTombola;
         btnCrearCarton = new javax.swing.JButton();
         btnModoJuego = new javax.swing.JButton();
         btnReiniciar = new javax.swing.JButton();
+        btnAbrirTablero = new javax.swing.JButton();
+        btnDesmarcar = new javax.swing.JButton();
+        btnAbrirTombola = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
@@ -100,6 +103,17 @@ private PanelTombola panelTombola;
         btnReiniciar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnReiniciar.setFocusPainted(false);
 
+        btnAbrirTablero.setText("Tablero");
+
+        btnDesmarcar.setText("Desmarcar");
+
+        btnAbrirTombola.setText("Tómbola");
+        btnAbrirTombola.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirTombolaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -107,20 +121,33 @@ private PanelTombola panelTombola;
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(btnCrearCarton, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 494, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
+                .addComponent(btnAbrirTablero, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(btnAbrirTombola, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                .addComponent(btnDesmarcar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addComponent(btnModoJuego)
-                .addGap(83, 83, 83)
+                .addGap(55, 55, 55)
                 .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearCarton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAbrirTombola, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCrearCarton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAbrirTablero, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDesmarcar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -167,7 +194,7 @@ private PanelTombola panelTombola;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(lblUltimoNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -177,10 +204,17 @@ private PanelTombola panelTombola;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAbrirTombolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirTombolaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAbrirTombolaActionPerformed
 public JButton getBtnCrearCarton() { 
     return btnCrearCarton; 
 }
 
+public JButton getBtnAbrirTombola() {
+    return btnAbrirTombola;
+}
 
 public JButton getBtnReiniciar() { 
     return btnReiniciar; 
@@ -202,6 +236,13 @@ public JLabel getLblUltimoNumero() {
     return lblUltimoNumero; 
 }
 
+public JButton getBtnAbrirTablero() {
+    return btnAbrirTablero;
+}
+
+public JButton getBtnDesmarcar() {
+    return btnDesmarcar;
+}
 public void actualizarUltimoNumero(int numero) {
     lblUltimoNumero.setText("Último número: " + numero);
 }
@@ -242,7 +283,10 @@ public void actualizarUltimoNumero(int numero) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbrirTablero;
+    private javax.swing.JButton btnAbrirTombola;
     private javax.swing.JButton btnCrearCarton;
+    private javax.swing.JButton btnDesmarcar;
     private javax.swing.JButton btnModoJuego;
     private javax.swing.JButton btnReiniciar;
     private javax.swing.JLabel jLabel1;

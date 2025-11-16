@@ -50,7 +50,9 @@ public class Tombola {
         ultimoNumeroCantado = numero;
         return true;
     }
-
+public boolean validarNumeroParaCarton(int numero) {
+    return numero >= 1 && numero <= 75;
+}
     public int getUltimoNumeroCantado() {
         return ultimoNumeroCantado;
     }
