@@ -3,97 +3,229 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
+
 import Modelo.Carton;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Joan
  */
 public class CartonPanel extends javax.swing.JPanel {
-private Carton carton;
-private JLabel[][] lblNumeros;
+
+    private Carton carton;
+    private JLabel[][] lblNumeros;
+    private boolean modoManual = false;
+    private int posicionActual = 0;
+    private int[][] numerosTemporales = new int[5][5];
+
     /**
      * Creates new form PanelCarton
      */
     public CartonPanel() {
         initComponents();
     }
-public void inicializarCarton(Carton carton) {
-    this.carton = carton;
-    this.lblNumeros = new JLabel[5][5];
-    
-    lblNumeros[0][0] = lbl00; lblNumeros[0][1] = lbl05; lblNumeros[0][2] = lbl10; lblNumeros[0][3] = lbl15; lblNumeros[0][4] = lbl20;
-lblNumeros[1][0] = lbl01; lblNumeros[1][1] = lbl06; lblNumeros[1][2] = lbl11; lblNumeros[1][3] = lbl16; lblNumeros[1][4] = lbl21;
-lblNumeros[2][0] = lbl02; lblNumeros[2][1] = lbl07; lblNumeros[2][2] = lbl12; lblNumeros[2][3] = lbl17; lblNumeros[2][4] = lbl22;
-lblNumeros[3][0] = lbl03; lblNumeros[3][1] = lbl08; lblNumeros[3][2] = lbl13; lblNumeros[3][3] = lbl18; lblNumeros[3][4] = lbl23;
-lblNumeros[4][0] = lbl04; lblNumeros[4][1] = lbl09; lblNumeros[4][2] = lbl14; lblNumeros[4][3] = lbl19; lblNumeros[4][4] = lbl24;
-    
-    cargarNumeros();
-    lblIdCarton.setText(carton.getId());
-}
 
-private void cargarNumeros() {
-    int[][] numeros = carton.getNumeros();
-    boolean[][] marcados = carton.getMarcados();
-    
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            JLabel lbl = lblNumeros[i][j];
-            
-            if (i == 2 && j == 2) {
-                lbl.setText("LIBRE");
-                lbl.setBackground(new Color(255, 235, 59));
-            } else {
-                lbl.setText(String.valueOf(numeros[i][j]));
+    public void inicializarCarton(Carton carton) {
+        this.carton = carton;
+        this.lblNumeros = new JLabel[5][5];
+
+        lblNumeros[0][0] = lbl00;
+        lblNumeros[0][1] = lbl01;
+        lblNumeros[0][2] = lbl02;
+        lblNumeros[0][3] = lbl03;
+        lblNumeros[0][4] = lbl04;
+        lblNumeros[1][0] = lbl05;
+        lblNumeros[1][1] = lbl06;
+        lblNumeros[1][2] = lbl07;
+        lblNumeros[1][3] = lbl08;
+        lblNumeros[1][4] = lbl09;
+        lblNumeros[2][0] = lbl10;
+        lblNumeros[2][1] = lbl11;
+        lblNumeros[2][2] = lbl12;
+        lblNumeros[2][3] = lbl13;
+        lblNumeros[2][4] = lbl14;
+        lblNumeros[3][0] = lbl15;
+        lblNumeros[3][1] = lbl16;
+        lblNumeros[3][2] = lbl17;
+        lblNumeros[3][3] = lbl18;
+        lblNumeros[3][4] = lbl19;
+        lblNumeros[4][0] = lbl20;
+        lblNumeros[4][1] = lbl21;
+        lblNumeros[4][2] = lbl22;
+        lblNumeros[4][3] = lbl23;
+        lblNumeros[4][4] = lbl24;
+
+        if (esCartonVacio(carton)) {
+            inicializarVacio();
+            modoManual = true;
+        } else {
+            cargarNumeros();
+            modoManual = false;
+        }
+
+        lblIdCarton.setText(carton.getId());
+    }
+
+    private boolean esCartonVacio(Carton carton) {
+        int[][] numeros = carton.getNumeros();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (i == 2 && j == 2) {
+                    continue;
+                }
+                if (numeros[i][j] != 0) {
+                    return false;
+                }
             }
-            
-            lbl.setOpaque(true);
-            lbl.setHorizontalAlignment(JLabel.CENTER);
-            lbl.setFont(new Font("Arial", Font.BOLD, 18));
-            lbl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            lbl.setPreferredSize(new java.awt.Dimension(50, 50));
-            if (marcados[i][j]) {
-                lbl.setBackground(new Color(76, 175, 80));
-                lbl.setForeground(Color.WHITE);
-            } else {
-                lbl.setBackground(Color.WHITE);
-                lbl.setForeground(Color.BLACK);
+        }
+        return true;
+    }
+
+    private void inicializarVacio() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                JLabel lbl = lblNumeros[i][j];
+
+                if (i == 2 && j == 2) {
+                    lbl.setText("LIBRE");
+                    lbl.setBackground(new Color(255, 235, 59));
+                    lbl.setForeground(Color.BLACK);
+                } else {
+                    lbl.setText(" ");
+                    lbl.setBackground(Color.WHITE);
+                    lbl.setForeground(Color.BLACK);
+                }
+
+                lbl.setOpaque(true);
+                lbl.setHorizontalAlignment(JLabel.CENTER);
+                lbl.setFont(new Font("Arial", Font.BOLD, 18));
+                lbl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+                numerosTemporales[i][j] = 0;
             }
         }
     }
-}
 
-public void actualizarMarcas() {
-    boolean[][] marcados = carton.getMarcados();
-    
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (marcados[i][j]) {
-                lblNumeros[i][j].setBackground(new Color(76, 175, 80));
-                lblNumeros[i][j].setForeground(Color.WHITE);
-            } else if (i == 2 && j == 2) {
-                lblNumeros[i][j].setBackground(new Color(255, 235, 59));
-            } else {
-                lblNumeros[i][j].setBackground(Color.WHITE);
-                lblNumeros[i][j].setForeground(Color.BLACK);
+    private void cargarNumeros() {
+        int[][] numeros = carton.getNumeros();
+        boolean[][] marcados = carton.getMarcados();
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                JLabel lbl = lblNumeros[i][j];
+
+                if (i == 2 && j == 2) {
+                    lbl.setText("LIBRE");
+                    lbl.setBackground(new Color(255, 235, 59));
+                } else {
+                    lbl.setText(String.valueOf(numeros[i][j]));
+                }
+
+                lbl.setOpaque(true);
+                lbl.setHorizontalAlignment(JLabel.CENTER);
+                lbl.setFont(new Font("Arial", Font.BOLD, 18));
+                lbl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                lbl.setPreferredSize(new java.awt.Dimension(50, 50));
+                if (marcados[i][j]) {
+                    lbl.setBackground(new Color(76, 175, 80));
+                    lbl.setForeground(Color.WHITE);
+                } else {
+                    lbl.setBackground(Color.WHITE);
+                    lbl.setForeground(Color.BLACK);
+                }
             }
         }
     }
-}
 
-public void resaltarGanador() {
-    setBorder(BorderFactory.createLineBorder(Color.RED, 5));
-}
-public JButton getBtnCerrar() {
-    return BtnCerrar;
-}
-public Carton getCarton() {
-    return carton;
-}
+    public boolean agregarNumero(int numero) {
+        if (posicionActual >= 24) {
+            return false;
+        }
+
+        int col = posicionActual / 5;
+        int fila = posicionActual % 5;
+
+        if (fila == 2 && col == 2) {
+            posicionActual++;
+            if (posicionActual < 24) {
+                col = posicionActual / 5;
+                fila = posicionActual % 5;
+            }
+        }
+
+        int min = col * 15 + 1;
+        int max = (col + 1) * 15;
+
+        if (numero < min || numero > max) {
+            String[] letras = {"B", "I", "N", "G", "O"};
+            JOptionPane.showMessageDialog(this,
+                    "El número debe estar entre " + min + "-" + max + " (columna " + letras[col] + ")");
+            return false;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (numerosTemporales[i][j] == numero) {
+                    JOptionPane.showMessageDialog(this, "El número " + numero + " ya existe");
+                    return false;
+                }
+            }
+        }
+
+        lblNumeros[fila][col].setText(String.valueOf(numero));
+        lblNumeros[fila][col].setForeground(Color.BLACK);
+        numerosTemporales[fila][col] = numero;
+        posicionActual++;
+
+        if (posicionActual == 24) {
+            carton.setNumeros(numerosTemporales);
+            modoManual = false;
+            JOptionPane.showMessageDialog(this, "¡Cartón " + carton.getId() + " completado!");
+        }
+
+        return true;
+    }
+
+    public boolean isModoManual() {
+        return modoManual;
+    }
+
+    public void actualizarMarcas() {
+        boolean[][] marcados = carton.getMarcados();
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (marcados[i][j]) {
+                    lblNumeros[i][j].setBackground(new Color(76, 175, 80));
+                    lblNumeros[i][j].setForeground(Color.WHITE);
+                } else if (i == 2 && j == 2) {
+                    lblNumeros[i][j].setBackground(new Color(255, 235, 59));
+                } else {
+                    lblNumeros[i][j].setBackground(Color.WHITE);
+                    lblNumeros[i][j].setForeground(Color.BLACK);
+                }
+            }
+        }
+    }
+
+    public void resaltarGanador() {
+        setBorder(BorderFactory.createLineBorder(Color.RED, 5));
+    }
+
+    public JButton getBtnCerrar() {
+        return BtnCerrar;
+    }
+
+    public Carton getCarton() {
+        return carton;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

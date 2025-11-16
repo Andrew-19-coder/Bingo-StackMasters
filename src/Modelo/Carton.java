@@ -139,6 +139,10 @@ private Random random;
         return numeros;
     }
 
+    public void setNumeros(int[][] numeros) {
+        this.numeros = numeros;
+    }
+
     public boolean[][] getMarcados() {
        return marcados; 
     }

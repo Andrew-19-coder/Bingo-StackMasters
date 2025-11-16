@@ -3,81 +3,107 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
+
 import Modelo.Tombola;
 import java.awt.*;
 import javax.swing.*;
+
 /**
  *
  * @author itsth
  */
 public class PanelTombola extends javax.swing.JPanel {
+
     private Tombola tombola;
+
     /**
      * Creates new form PanelTombola
      */
     public PanelTombola() {
         initComponents();
-        
+
     }
-    
+
     public void configurarEventosConFacade(Runnable onNumeroSacado, Runnable onNumeroIngresado) {
-    btnSacarBola.addActionListener(e -> {
-        int numero = tombola.sacarBola();
-        if (numero == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "No quedan más bolas disponibles", 
-                "Tombola Completa", 
-                JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            actualizarInterfaz();
-            onNumeroSacado.run();
-        }
-    });
-    
-    btnIngresar.addActionListener(e -> {
-        try {
-            int numero = Integer.parseInt(txtNumero.getText().trim());
-            if (tombola.ingresarBola(numero)) {
-                txtNumero.setText("");
-                actualizarInterfaz();
-                onNumeroIngresado.run();
+        btnSacarBola.addActionListener(e -> {
+            int numero = tombola.sacarBola();
+            if (numero == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "No quedan más bolas disponibles",
+                        "Tombola Completa",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Número inválido o ya cantado", 
-                    "Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                actualizarInterfaz();
+                onNumeroSacado.run();
             }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un número válido", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-        }
-    });
-    
-    txtNumero.addActionListener(e -> btnIngresar.doClick());
-}
-    
+        });
+
+        btnIngresar.addActionListener(e -> {
+            try {
+                int numero = Integer.parseInt(txtManual.getText().trim());
+                if (tombola.ingresarBola(numero)) {
+                    txtManual.setText("");
+                    actualizarInterfaz();
+                    onNumeroIngresado.run();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Número inválido o ya cantado",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Por favor ingrese un número válido",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        txtManual.addActionListener(e -> btnIngresar.doClick());
+    }
+
     public void reiniciar() {
-    actualizarInterfaz();
-}
-    
+        actualizarInterfaz();
+    }
+
     public void setTombola(Tombola tombola) {
         this.tombola = tombola;
         actualizarInterfaz();
     }
-    
+
     public void actualizarInterfaz() {
-    int ultimo = tombola.getUltimoNumeroCantado();
-    lblNumeroActual.setText(ultimo == 0 ? "--" : String.valueOf(ultimo));
-    
-    int cantados = 75 - contarRestantes();
-    lblRestantes.setText("Restantes: " + contarRestantes());
-    lblCantados.setText("Cantados: " + cantados);
+        int ultimo = tombola.getUltimoNumeroCantado();
+        lblNumeroActual.setText(ultimo == 0 ? "--" : String.valueOf(ultimo));
+
+        int cantados = 75 - contarRestantes();
+        lblRestantes.setText("Restantes: " + contarRestantes());
+        lblCantados.setText("Cantados: " + cantados);
     }
-    
+
     private int contarRestantes() {
         return tombola.getBolasDisponibles().size();
+    }
+
+    public JToggleButton getBtnModoManual() {
+        return btnModoManual;
+    }
+
+    public void habilitarModoAutomatico() {
+        btnSacarBola.setEnabled(true);
+        btnIngresar.setEnabled(false);
+        txtManual.setEnabled(false);
+        txtManual.setText("");
+        btnModoManual.setText("Modo Manual: OFF");
+        btnModoManual.setBackground(new Color(51, 51, 51));
+    }
+
+    public void habilitarModoManual() {
+        btnSacarBola.setEnabled(false);
+        btnIngresar.setEnabled(true);
+        txtManual.setEnabled(true);
+        txtManual.requestFocus();
+        btnModoManual.setText("Modo Manual: ON");
+        btnModoManual.setBackground(new Color(255, 140, 0));
     }
 
     /**
@@ -100,9 +126,9 @@ public class PanelTombola extends javax.swing.JPanel {
         lblCantados = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         lblNumeroActual = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtNumero = new javax.swing.JTextField();
+        txtManual = new javax.swing.JTextField();
         btnIngresar = new javax.swing.JButton();
+        btnModoManual = new javax.swing.JToggleButton();
         btnSacarBola = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
@@ -125,7 +151,7 @@ public class PanelTombola extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         lblRestantes.setBackground(new java.awt.Color(102, 204, 255));
         lblRestantes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -135,7 +161,7 @@ public class PanelTombola extends javax.swing.JPanel {
         lblRestantes.setOpaque(true);
         jPanel3.add(lblRestantes);
 
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         lblCantados.setBackground(new java.awt.Color(153, 153, 153));
         lblCantados.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -156,39 +182,36 @@ public class PanelTombola extends javax.swing.JPanel {
         lblNumeroActual.setText("--");
         lblNumeroActual.setOpaque(true);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel6.setText("MODO MANUAL:");
-
         btnIngresar.setBackground(new java.awt.Color(0, 102, 255));
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("INGRESAR");
 
+        btnModoManual.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnModoManual.setText("MODO MANUAL");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(btnModoManual)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnIngresar)
                 .addGap(24, 24, 24))
+            .addComponent(lblNumeroActual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIngresar))
+                    .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnIngresar)
+                    .addComponent(btnModoManual))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -207,9 +230,9 @@ public class PanelTombola extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JToggleButton btnModoManual;
     private javax.swing.JButton btnSacarBola;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -220,6 +243,6 @@ public class PanelTombola extends javax.swing.JPanel {
     private javax.swing.JLabel lblCantados;
     private javax.swing.JLabel lblNumeroActual;
     private javax.swing.JLabel lblRestantes;
-    private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtManual;
     // End of variables declaration//GEN-END:variables
 }

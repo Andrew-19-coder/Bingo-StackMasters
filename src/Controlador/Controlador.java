@@ -30,6 +30,7 @@ public class Controlador {
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     private TableroPanel tablero;
     private Juego juego;
+    private CartonPanel cartonEnEdicion = null;
 
     public Controlador() {
         this.tablero = new TableroPanel();
@@ -47,40 +48,41 @@ public class Controlador {
 
     private void inicializarTombola() {
         vista.getPanelTombola().setTombola(facade.getTombola());
-         vista.getPanelTombola().configurarEventosConFacade(
-        () -> {
-            int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
-            
-            juego.marcarNumero(ultimoNum);
-            actualizarCartonesVista();
-            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
-            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
-            actualizarCartonesVista();
-            
-            if (facade.hayGanador()) {
-                JOptionPane.showMessageDialog(vista, 
-                    "¡GANADOR! " + facade.obtenerIdGanador(),
-                    "¡BINGO!",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-        },
-        () -> {
-           int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
-             juego.marcarNumero(ultimoNum);
-             actualizarCartonesVista();
-           
-            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);          
-            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
-            actualizarCartonesVista();
-            
-            if (facade.hayGanador()) {
-                JOptionPane.showMessageDialog(vista, 
-                    "¡GANADOR! " + facade.obtenerIdGanador(),
-                    "¡BINGO!",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-    );
+        vista.getPanelTombola().getBtnModoManual().addActionListener(e -> toggleModoManual());
+        vista.getPanelTombola().configurarEventosConFacade(
+                () -> {
+                    int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
+
+                    juego.marcarNumero(ultimoNum);
+                    actualizarCartonesVista();
+                    vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
+                    vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+                    actualizarCartonesVista();
+
+                    if (facade.hayGanador()) {
+                        JOptionPane.showMessageDialog(vista,
+                                "¡GANADOR! " + facade.obtenerIdGanador(),
+                                "¡BINGO!",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                },
+                () -> {
+                    int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
+                    juego.marcarNumero(ultimoNum);
+                    actualizarCartonesVista();
+
+                    vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
+                    vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+                    actualizarCartonesVista();
+
+                    if (facade.hayGanador()) {
+                        JOptionPane.showMessageDialog(vista,
+                                "¡GANADOR! " + facade.obtenerIdGanador(),
+                                "¡BINGO!",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+        );
     }
 
     private void mostrarTombola() {
@@ -115,6 +117,35 @@ public class Controlador {
         });
     }
 
+    private void toggleModoManual() {
+        modoManual = !modoManual;
+
+        if (modoManual) {
+            vista.getPanelTombola().habilitarModoManual();
+            cartonEnEdicion = facade.crearCartonManual();
+            JOptionPane.showMessageDialog(vista,
+                    "Modo Manual activado");
+        } else {
+            vista.getPanelTombola().habilitarModoAutomatico();
+
+            if (cartonEnEdicion != null && cartonEnEdicion.isModoManual()) {
+                int confirm = JOptionPane.showConfirmDialog(vista,
+                        "Hay un cartón sin completar. ¿Desea eliminarlo?",
+                        "Cartón Incompleto",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    vista.getPanelCentral().remove(cartonEnEdicion);
+                    vista.getPanelCentral().revalidate();
+                    vista.getPanelCentral().repaint();
+                }
+            }
+
+            cartonEnEdicion = null;
+            JOptionPane.showMessageDialog(vista, "Modo Manual desactivado");
+        }
+    }
+
     private void sacarBola() {
         int numero = facade.sacarBolaAutomatica();
 
@@ -128,8 +159,8 @@ public class Controlador {
                     "¡BINGO!",
                     JOptionPane.INFORMATION_MESSAGE);
         }
-        vista.getPanelTombola () 
-        .actualizarInterfaz();
+        vista.getPanelTombola()
+                .actualizarInterfaz();
 
         String letra = obtenerLetraBingo(numero);
         vista.getLblUltimoNumero().setText("Último número: " + letra + "-" + numero);
@@ -182,6 +213,7 @@ public class Controlador {
             }
         }
     }
+
     private void cambiarModoJuego() {
         modoActual = (modoActual + 1) % 3;
 
@@ -206,7 +238,7 @@ public class Controlador {
 
     private void reiniciarJuego() {
         facade.reiniciarJuego();
-         vista.getPanelTombola().reiniciar();
+        vista.getPanelTombola().reiniciar();
         JOptionPane.showMessageDialog(vista, "Juego reiniciado");
     }
 }
