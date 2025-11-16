@@ -13,6 +13,7 @@ import java.awt.event.*;
 import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.JDialog;
 
 /**
@@ -29,6 +30,7 @@ public class Controlador {
     private JDialog dialogTablero;
     private TableroPanel tableroPanel;
     private JDialog dialogTombola;
+    private boolean juegoIniciado = false;
 
     private String[] nombresModos = {"Normal", "Cuatro Esquinas", "Cartón Lleno"};
     private TableroPanel tablero;
@@ -61,12 +63,13 @@ public class Controlador {
 
         vista.getPanelTombola().configurarEventosConFacade(
                 () -> {
-                   
+
+                    juegoIniciado = true;
+
                     int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
                     juego.marcarNumero(ultimoNum);
                     actualizarCartonesVista();
 
-                    
                     if (tableroPanel != null) {
                         tableroPanel.marcarNumero(ultimoNum);
                     }
@@ -75,14 +78,16 @@ public class Controlador {
                     vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
 
                     if (facade.hayGanador()) {
+                        String tipoJugada = facade.getTipoJugadaGanadora();
                         JOptionPane.showMessageDialog(vista,
-                                "¡GANADOR! " + facade.obtenerIdGanador(),
+                                "¡GANADOR! " + facade.obtenerIdGanador() + "\n"
+                                + "Jugada: " + tipoJugada,
                                 "¡BINGO!",
                                 JOptionPane.INFORMATION_MESSAGE);
                     }
                 },
                 () -> {
-                   
+
                     int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
 
                     if (modoManual && cartonEnEdicion != null && cartonEnEdicion.isModoManual()) {
@@ -96,8 +101,10 @@ public class Controlador {
                     vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
 
                     if (facade.hayGanador()) {
+                        String tipoJugada = facade.getTipoJugadaGanadora();
                         JOptionPane.showMessageDialog(vista,
-                                "¡GANADOR! " + facade.obtenerIdGanador(),
+                                "¡GANADOR! " + facade.obtenerIdGanador() + "\n"
+                                + "Jugada: " + tipoJugada,
                                 "¡BINGO!",
                                 JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -135,15 +142,14 @@ public class Controlador {
                 abrirTablero();
             }
         });
-        
-        
+
         vista.getBtnDesmarcar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 desmarcarNumero();
             }
         });
-        
+
         vista.getBtnModoJuego().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -196,8 +202,10 @@ public class Controlador {
             return;
         }
         if (facade.hayGanador()) {
+            String tipoJugada = facade.getTipoJugadaGanadora();
             JOptionPane.showMessageDialog(vista,
-                    "¡GANADOR! " + facade.obtenerIdGanador(),
+                    "¡GANADOR! " + facade.obtenerIdGanador() + "\n"
+                    + "Jugada: " + tipoJugada,
                     "¡BINGO!",
                     JOptionPane.INFORMATION_MESSAGE);
         }
@@ -247,10 +255,12 @@ public class Controlador {
                 System.out.println("Actualizando CartonPanel: " + panel.getCarton().getId());
                 panel.actualizarMarcas();
 
-                // Si es el ganador, resaltarlo
                 if (juego.getCartonGanador() != null
                         && panel.getCarton().getId().equals(juego.getCartonGanador().getId())) {
                     panel.resaltarGanador();
+
+                    ArrayList<int[]> posicionesGanadoras = facade.getPosicionesGanadoras();
+                    panel.resaltarJugadaGanadora(posicionesGanadoras);
                 }
             }
         }
@@ -279,132 +289,157 @@ public class Controlador {
     }
 
     private void ingresarNumeroManual() {
-    String textoNumero = vista.getPanelTombola().getTxtManual().getText().trim();
-    
-    if (textoNumero.isEmpty()) {
-        JOptionPane.showMessageDialog(vista, "Ingresa un número");
-        return;
-    }
-    
-    int numero;
-    try {
-        numero = Integer.parseInt(textoNumero);
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(vista, "Número inválido");
-        return;
-    }
-    
-    if (numero < 1 || numero > 75) {
-        JOptionPane.showMessageDialog(vista, "El número debe estar entre 1 y 75");
-        return;
-    }
-    
-    if (modoManual && cartonEnEdicion != null && cartonEnEdicion.isModoManual()) {
-      
-        if (cartonEnEdicion.agregarNumero(numero)) {
-            vista.getPanelTombola().getTxtManual().setText("");
-        }
-    } else {
-        
-        if (juego.getTombola().ingresarBola(numero)) {
-            juego.marcarNumero(numero);
-            actualizarCartonesVista();
-            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(numero) + "-" + numero);
-            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
-            vista.getPanelTombola().actualizarInterfaz();
-            vista.getPanelTombola().getTxtManual().setText("");
-            
-            if (tableroPanel != null) {
-                tableroPanel.marcarNumero(numero);
-            }
-            
-            if (facade.hayGanador()) {
-                JOptionPane.showMessageDialog(vista,
-                        "¡GANADOR! " + facade.obtenerIdGanador(),
-                        "¡BINGO!",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(vista, "Número inválido o ya cantado");
-        }
-    }
-}
-    
-    private void desmarcarNumero() {
-    String input = JOptionPane.showInputDialog(vista, 
-        "Ingresa el número a desmarcar (1-75):",
-        "Desmarcar Número",
-        JOptionPane.QUESTION_MESSAGE);
-    
-    if (input == null || input.trim().isEmpty()) {
-        return; // Usuario canceló
-    }
-    
-    try {
-        int numero = Integer.parseInt(input.trim());
-        
-        if (numero < 1 || numero > 75) {
-            JOptionPane.showMessageDialog(vista, 
-                "El número debe estar entre 1 y 75",
-                "Número Inválido",
-                JOptionPane.ERROR_MESSAGE);
+        String textoNumero = vista.getPanelTombola().getTxtManual().getText().trim();
+
+        if (textoNumero.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Ingresa un número");
             return;
         }
-        
-        boolean desmarcado = facade.desmarcarNumero(numero);
-        
-        if (desmarcado) {
-            
-            actualizarCartonesVista();
-            
-           
-            if (tableroPanel != null) {
-                tableroPanel.desmarcarNumero(numero);
-            }
-            
-            JOptionPane.showMessageDialog(vista, 
-                "Número " + numero + " desmarcado correctamente",
-                "Éxito",
-                JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(vista, 
-                "El número " + numero + " no estaba marcado",
-                "Advertencia",
-                JOptionPane.WARNING_MESSAGE);
+
+        int numero;
+        try {
+            numero = Integer.parseInt(textoNumero);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vista, "Número inválido");
+            return;
         }
-        
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(vista, 
-            "Ingresa un número válido",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
+
+        if (numero < 1 || numero > 75) {
+            JOptionPane.showMessageDialog(vista, "El número debe estar entre 1 y 75");
+            return;
+        }
+
+        if (modoManual && cartonEnEdicion != null && cartonEnEdicion.isModoManual()) {
+
+            if (cartonEnEdicion.agregarNumero(numero)) {
+                vista.getPanelTombola().getTxtManual().setText("");
+            }
+        } else {
+
+            if (juego.getTombola().ingresarBola(numero)) {
+                juego.marcarNumero(numero);
+                actualizarCartonesVista();
+                vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(numero) + "-" + numero);
+                vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+                vista.getPanelTombola().actualizarInterfaz();
+                vista.getPanelTombola().getTxtManual().setText("");
+
+                if (tableroPanel != null) {
+                    tableroPanel.marcarNumero(numero);
+                }
+
+                if (facade.hayGanador()) {
+                    String tipoJugada = facade.getTipoJugadaGanadora();
+                    JOptionPane.showMessageDialog(vista,
+                            "¡GANADOR! " + facade.obtenerIdGanador() + "\n"
+                            + "Jugada: " + tipoJugada,
+                            "¡BINGO!",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(vista, "Número inválido o ya cantado");
+            }
+        }
     }
-}
-    
-    
+
+    private void desmarcarNumero() {
+        String input = JOptionPane.showInputDialog(vista,
+                "Ingresa el número a desmarcar (1-75):",
+                "Desmarcar Número",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (input == null || input.trim().isEmpty()) {
+            return;
+        }
+
+        try {
+            int numero = Integer.parseInt(input.trim());
+
+            if (numero < 1 || numero > 75) {
+                JOptionPane.showMessageDialog(vista,
+                        "El número debe estar entre 1 y 75",
+                        "Número Inválido",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            boolean desmarcado = facade.desmarcarNumero(numero);
+
+            if (desmarcado) {
+
+                if (facade.hayGanador()) {
+                    juego.setCartonGanador(null);
+                    juego.setPosicionesGanadoras(null);
+                    juego.setTipoJugadaGanadora(null);
+                }
+
+                actualizarCartonesVista();
+
+                if (tableroPanel != null) {
+                    tableroPanel.desmarcarNumero(numero);
+                }
+
+                JOptionPane.showMessageDialog(vista,
+                        "Número " + numero + " desmarcado correctamente",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(vista,
+                        "El número " + numero + " no estaba marcado",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vista,
+                    "Ingresa un número válido",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void abrirTablero() {
-    if (dialogTablero == null) {
-        dialogTablero = new JDialog(vista, "Tablero de Números - Bingo", false);
-        tableroPanel = new TableroPanel();
-        
-        dialogTablero.add(tableroPanel);
-        dialogTablero.setSize(1050, 400);
-        dialogTablero.setLocationRelativeTo(vista);
-        dialogTablero.setResizable(false);
+        if (dialogTablero == null) {
+            dialogTablero = new JDialog(vista, "Tablero de Números - Bingo", false);
+            tableroPanel = new TableroPanel();
+
+            sincronizarTablero();
+
+            dialogTablero.add(tableroPanel);
+            dialogTablero.setSize(1050, 400);
+            dialogTablero.setLocationRelativeTo(vista);
+            dialogTablero.setResizable(false);
+        }
+        dialogTablero.setVisible(true);
     }
-    dialogTablero.setVisible(true);
-}
-    
+
     private void abrirTombola() {
-    if (dialogTombola != null) {
-        dialogTombola.setVisible(true);
+        if (dialogTombola != null) {
+            dialogTombola.setVisible(true);
+        }
     }
-}
-    
-    
+
+    private void sincronizarTablero() {
+        if (tableroPanel == null) {
+            return;
+        }
+
+        Tombola tombola = juego.getTombola();
+        for (int i = 1; i <= 75; i++) {
+            if (!tombola.getBolasDisponibles().contains(i)) {
+                tableroPanel.marcarNumero(i);
+            }
+        }
+    }
+
     private void reiniciarJuego() {
         facade.reiniciarJuego();
         vista.getPanelTombola().reiniciar();
+        if (tableroPanel != null) {
+            tableroPanel.reiniciar();
+        }
+        juegoIniciado = false;
+
         JOptionPane.showMessageDialog(vista, "Juego reiniciado");
     }
 }

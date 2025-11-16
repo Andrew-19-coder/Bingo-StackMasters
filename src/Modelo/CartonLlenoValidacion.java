@@ -8,14 +8,15 @@ package Modelo;
  *
  * @author oscar
  */
-public class CartonLlenoValidacion extends ModoJuegoDecorator{
+public class CartonLlenoValidacion extends ModoJuegoDecorator {
+
     int minimoNumeros;
 
     public CartonLlenoValidacion(ModoJuego modo, int minimo) {
         super(modo);
         this.minimoNumeros = minimo;
     }
-    
+
     @Override
     public boolean verificarGanador(Carton carton) {
         boolean[][] marcados = carton.getMarcados();
@@ -28,11 +29,11 @@ public class CartonLlenoValidacion extends ModoJuegoDecorator{
                 }
             }
         }
-        
+
         if (contador < minimoNumeros) {
             return false;
         }
-        
+
         return super.verificarGanador(carton);
     }
 }

@@ -43,6 +43,15 @@ public class JuegoFacade {
         panel.inicializarCarton(nuevoCarton);
 
         panel.getBtnCerrar().addActionListener(e -> {
+
+            if (juego.getTombola().numerosCantados() > 0) {
+                JOptionPane.showMessageDialog(vista,
+                        "No se pueden eliminar cartones durante el juego",
+                        "Acción no permitida",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             int confirmacion = JOptionPane.showConfirmDialog(
                     vista,
                     "¿Seguro que deseas eliminar el cartón " + nuevoCarton.getId() + "?",
@@ -123,6 +132,15 @@ public class JuegoFacade {
         panel.inicializarCarton(carton);
 
         panel.getBtnCerrar().addActionListener(e -> {
+
+            if (juego.getTombola().numerosCantados() > 0) {
+                JOptionPane.showMessageDialog(vista,
+                        "No se pueden eliminar cartones durante el juego",
+                        "Acción no permitida",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             int confirmacion = JOptionPane.showConfirmDialog(
                     vista,
                     "¿Seguro que deseas eliminar el cartón " + carton.getId() + "?",
@@ -144,6 +162,14 @@ public class JuegoFacade {
 
     }
 
+    public ArrayList<int[]> getPosicionesGanadoras() {
+        return juego.getPosicionesGanadoras();
+    }
+
+    public String getTipoJugadaGanadora() {
+        return juego.getTipoJugadaGanadora();
+    }
+
     private void marcarNumeroEnTodo(int numero) {
         for (Carton carton : juego.getCartones()) {
             carton.marcarNumero(numero);
@@ -152,21 +178,21 @@ public class JuegoFacade {
     }
 
     public boolean desmarcarNumero(int numero) {
-    if (numero < 1 || numero > 75) {
-        return false;
+        if (numero < 1 || numero > 75) {
+            return false;
+        }
+
+        for (Carton carton : juego.getCartones()) {
+            carton.desmarcarNumero(numero);
+        }
+
+        juego.getTablero().desmarcarNumero(numero);
+
+        juego.getTombola().devolverBola(numero);
+
+        return true;
     }
-    
-  
-    for (Carton carton : juego.getCartones()) {
-        carton.desmarcarNumero(numero);
-    }
-    
-   
-    juego.getTablero().desmarcarNumero(numero);
-    
-    return true;
-}
-    
+
     private void actualizarVistaCompleta(int numero) {
         vista.actualizarUltimoNumero(numero);
         actualizarTodosLosCartones();

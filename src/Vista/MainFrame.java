@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
+
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,14 +11,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-
 /**
  *
  * @author Joan
  */
 public class MainFrame extends javax.swing.JFrame {
-private PanelFondoImagen panelFondo;
-private PanelTombola panelTombola;
+
+    private PanelFondoImagen panelFondo;
+    private PanelTombola panelTombola;
+
     /**
      * Creates new form MainFrame
      */
@@ -27,44 +29,35 @@ private PanelTombola panelTombola;
         panelFondo = new PanelFondoImagen(rutaImagen);
         panelFondo.setLayout(new BorderLayout());
         this.setContentPane(panelFondo);
-        
+
         panelTombola = new PanelTombola();
-        
-        
-      
-        
+
         JPanel panelNorteContenedor = new JPanel();
-      
+
         panelNorteContenedor.setLayout(new BoxLayout(panelNorteContenedor, BoxLayout.Y_AXIS));
-        panelNorteContenedor.setOpaque(false); 
-        
-       
-        panelNorteContenedor.add(this.jPanel1); 
-        panelNorteContenedor.add(this.jPanel2);         
-        
+        panelNorteContenedor.setOpaque(false);
+
+        panelNorteContenedor.add(this.jPanel1);
+        panelNorteContenedor.add(this.jPanel2);
+
         panelFondo.add(panelNorteContenedor, BorderLayout.NORTH);
-        
+
         panelFondo.add(this.jScrollPane2, BorderLayout.CENTER);
-        
-        
+
         panelFondo.add(this.lblUltimoNumero, BorderLayout.SOUTH);
-        
-        
-      
+
         this.jPanel1.setOpaque(false);
         this.jPanel2.setOpaque(false);
-        
-       
+
         this.lblUltimoNumero.setOpaque(false);
 
-       
         this.jScrollPane2.setOpaque(false);
-        
-       
+
         this.jScrollPane2.getViewport().setOpaque(false);
-        
+
         this.panelCentral.setOpaque(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -208,44 +201,46 @@ private PanelTombola panelTombola;
     private void btnAbrirTombolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirTombolaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAbrirTombolaActionPerformed
-public JButton getBtnCrearCarton() { 
-    return btnCrearCarton; 
-}
+    public JButton getBtnCrearCarton() {
+        return btnCrearCarton;
+    }
 
-public JButton getBtnAbrirTombola() {
-    return btnAbrirTombola;
-}
+    public JButton getBtnAbrirTombola() {
+        return btnAbrirTombola;
+    }
 
-public JButton getBtnReiniciar() { 
-    return btnReiniciar; 
-}
+    public JButton getBtnReiniciar() {
+        return btnReiniciar;
+    }
 
-public JButton getBtnModoJuego() { 
-    return btnModoJuego; 
-}
+    public JButton getBtnModoJuego() {
+        return btnModoJuego;
+    }
 
-public JPanel getPanelCentral() { 
-    return panelCentral; 
-}
+    public JPanel getPanelCentral() {
+        return panelCentral;
+    }
 
     public PanelTombola getPanelTombola() {
         return panelTombola;
     }
-    
-public JLabel getLblUltimoNumero() { 
-    return lblUltimoNumero; 
-}
 
-public JButton getBtnAbrirTablero() {
-    return btnAbrirTablero;
-}
+    public JLabel getLblUltimoNumero() {
+        return lblUltimoNumero;
+    }
 
-public JButton getBtnDesmarcar() {
-    return btnDesmarcar;
-}
-public void actualizarUltimoNumero(int numero) {
-    lblUltimoNumero.setText("Último número: " + numero);
-}
+    public JButton getBtnAbrirTablero() {
+        return btnAbrirTablero;
+    }
+
+    public JButton getBtnDesmarcar() {
+        return btnDesmarcar;
+    }
+
+    public void actualizarUltimoNumero(int numero) {
+        lblUltimoNumero.setText("Último número: " + numero);
+    }
+
     /**
      * @param args the command line arguments
      */

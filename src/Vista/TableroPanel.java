@@ -15,8 +15,10 @@ import javax.swing.JLabel;
  * @author oscar
  */
 public class TableroPanel extends javax.swing.JPanel {
+
     private Tablero tablero;
     private JLabel[] lblNumeros;
+
     /**
      * Creates new form TableroPanel
      */
@@ -24,125 +26,123 @@ public class TableroPanel extends javax.swing.JPanel {
         initComponents();
         inicializarTablero();
     }
-    
-   private void inicializarTablero() {
-    lblNumeros = new JLabel[75];
-    
-     lblNumeros[0] = lbl00;
-    lblNumeros[1] = lbl01;
-    lblNumeros[2] = lbl02;
-    lblNumeros[3] = lbl03;
-    lblNumeros[4] = lbl04;
-    lblNumeros[5] = lbl05;
-    lblNumeros[6] = lbl06;
-    lblNumeros[7] = lbl07;
-    lblNumeros[8] = lbl08;
-    lblNumeros[9] = lbl09;
-    lblNumeros[10] = lbl10;
-    lblNumeros[11] = lbl11;
-    lblNumeros[12] = lbl12;
-    lblNumeros[13] = lbl13;
-    lblNumeros[14] = lbl14;
-    lblNumeros[15] = lbl15;
-    lblNumeros[16] = lbl16;
-    lblNumeros[17] = lbl17;
-    lblNumeros[18] = lbl18;
-    lblNumeros[19] = lbl19;
-    lblNumeros[20] = lbl20;
-    lblNumeros[21] = lbl21;
-    lblNumeros[22] = lbl22;
-    lblNumeros[23] = lbl23;
-    lblNumeros[24] = lbl24;
-    lblNumeros[25] = lbl25;
-    lblNumeros[26] = lbl26;
-    lblNumeros[27] = lbl27;
-    lblNumeros[28] = lbl28;
-    lblNumeros[29] = lbl29;
-    lblNumeros[30] = lbl30;
-    lblNumeros[31] = lbl31;
-    lblNumeros[32] = lbl32;
-    lblNumeros[33] = lbl33;
-    lblNumeros[34] = lbl34;
-    lblNumeros[35] = lbl35;
-    lblNumeros[36] = lbl36;
-    lblNumeros[37] = lbl37;
-    lblNumeros[38] = lbl38;
-    lblNumeros[39] = lbl39;
-    lblNumeros[40] = lbl40;
-    lblNumeros[41] = lbl41;
-    lblNumeros[42] = lbl42;
-    lblNumeros[43] = lbl43;
-    lblNumeros[44] = lbl44;
-    lblNumeros[45] = lbl45;
-    lblNumeros[46] = lbl46;
-    lblNumeros[47] = lbl47;
-    lblNumeros[48] = lbl48;
-    lblNumeros[49] = lbl49;
-    lblNumeros[50] = lbl50;
-    lblNumeros[51] = lbl51;
-    lblNumeros[52] = lbl52;
-    lblNumeros[53] = lbl53;
-    lblNumeros[54] = lbl54;
-    lblNumeros[55] = lbl55;
-    lblNumeros[56] = lbl56;
-    lblNumeros[57] = lbl57;
-    lblNumeros[58] = lbl58;
-    lblNumeros[59] = lbl59;
-    lblNumeros[60] = lbl60;
-    lblNumeros[61] = lbl61;
-    lblNumeros[62] = lbl62;
-    lblNumeros[63] = lbl63;
-    lblNumeros[64] = lbl64;
-    lblNumeros[65] = lbl65;
-    lblNumeros[66] = lbl66;
-    lblNumeros[67] = lbl67;
-    lblNumeros[68] = lbl68;
-    lblNumeros[69] = lbl69;
-    lblNumeros[70] = lbl70;
-    lblNumeros[71] = lbl71;
-    lblNumeros[72] = lbl72;
-    lblNumeros[73] = lbl73;
-    lblNumeros[74] = lbl74;
-    
-   
-for (int i = 0; i < 75; i++) {
-    lblNumeros[i].setText(String.valueOf(i + 1));
-    lblNumeros[i].setOpaque(true);
-    lblNumeros[i].setBackground(Color.WHITE);
-    lblNumeros[i].setForeground(Color.BLACK);
-    lblNumeros[i].setHorizontalAlignment(JLabel.CENTER);
-    lblNumeros[i].setVerticalAlignment(JLabel.CENTER);
-    lblNumeros[i].setFont(new Font("Arial", Font.BOLD, 16)); 
-    
-    lblNumeros[i].setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50), 2));
-    
-    
-    lblNumeros[i].setPreferredSize(new java.awt.Dimension(45, 45));
-    lblNumeros[i].setMinimumSize(new java.awt.Dimension(45, 45));   
-    lblNumeros[i].setMaximumSize(new java.awt.Dimension(45, 45));  
-  }
-}
 
-public void marcarNumero(int numero) {
-    if (numero >= 1 && numero <= 75) {
-        lblNumeros[numero - 1].setBackground(new Color(76, 175, 80));
-        lblNumeros[numero - 1].setForeground(Color.WHITE);
-    }
-}
+    private void inicializarTablero() {
+        lblNumeros = new JLabel[75];
 
-public void desmarcarNumero(int numero) {
-    if (numero >= 1 && numero <= 75) {
-        lblNumeros[numero - 1].setBackground(Color.WHITE);
-        lblNumeros[numero - 1].setForeground(Color.BLACK);
-    }
-}
+        lblNumeros[0] = lbl00;
+        lblNumeros[1] = lbl01;
+        lblNumeros[2] = lbl02;
+        lblNumeros[3] = lbl03;
+        lblNumeros[4] = lbl04;
+        lblNumeros[5] = lbl05;
+        lblNumeros[6] = lbl06;
+        lblNumeros[7] = lbl07;
+        lblNumeros[8] = lbl08;
+        lblNumeros[9] = lbl09;
+        lblNumeros[10] = lbl10;
+        lblNumeros[11] = lbl11;
+        lblNumeros[12] = lbl12;
+        lblNumeros[13] = lbl13;
+        lblNumeros[14] = lbl14;
+        lblNumeros[15] = lbl15;
+        lblNumeros[16] = lbl16;
+        lblNumeros[17] = lbl17;
+        lblNumeros[18] = lbl18;
+        lblNumeros[19] = lbl19;
+        lblNumeros[20] = lbl20;
+        lblNumeros[21] = lbl21;
+        lblNumeros[22] = lbl22;
+        lblNumeros[23] = lbl23;
+        lblNumeros[24] = lbl24;
+        lblNumeros[25] = lbl25;
+        lblNumeros[26] = lbl26;
+        lblNumeros[27] = lbl27;
+        lblNumeros[28] = lbl28;
+        lblNumeros[29] = lbl29;
+        lblNumeros[30] = lbl30;
+        lblNumeros[31] = lbl31;
+        lblNumeros[32] = lbl32;
+        lblNumeros[33] = lbl33;
+        lblNumeros[34] = lbl34;
+        lblNumeros[35] = lbl35;
+        lblNumeros[36] = lbl36;
+        lblNumeros[37] = lbl37;
+        lblNumeros[38] = lbl38;
+        lblNumeros[39] = lbl39;
+        lblNumeros[40] = lbl40;
+        lblNumeros[41] = lbl41;
+        lblNumeros[42] = lbl42;
+        lblNumeros[43] = lbl43;
+        lblNumeros[44] = lbl44;
+        lblNumeros[45] = lbl45;
+        lblNumeros[46] = lbl46;
+        lblNumeros[47] = lbl47;
+        lblNumeros[48] = lbl48;
+        lblNumeros[49] = lbl49;
+        lblNumeros[50] = lbl50;
+        lblNumeros[51] = lbl51;
+        lblNumeros[52] = lbl52;
+        lblNumeros[53] = lbl53;
+        lblNumeros[54] = lbl54;
+        lblNumeros[55] = lbl55;
+        lblNumeros[56] = lbl56;
+        lblNumeros[57] = lbl57;
+        lblNumeros[58] = lbl58;
+        lblNumeros[59] = lbl59;
+        lblNumeros[60] = lbl60;
+        lblNumeros[61] = lbl61;
+        lblNumeros[62] = lbl62;
+        lblNumeros[63] = lbl63;
+        lblNumeros[64] = lbl64;
+        lblNumeros[65] = lbl65;
+        lblNumeros[66] = lbl66;
+        lblNumeros[67] = lbl67;
+        lblNumeros[68] = lbl68;
+        lblNumeros[69] = lbl69;
+        lblNumeros[70] = lbl70;
+        lblNumeros[71] = lbl71;
+        lblNumeros[72] = lbl72;
+        lblNumeros[73] = lbl73;
+        lblNumeros[74] = lbl74;
 
-public void reiniciar() {
-    for (int i = 0; i < 75; i++) {
-        lblNumeros[i].setBackground(Color.WHITE);
-        lblNumeros[i].setForeground(Color.BLACK);
+        for (int i = 0; i < 75; i++) {
+            lblNumeros[i].setText(String.valueOf(i + 1));
+            lblNumeros[i].setOpaque(true);
+            lblNumeros[i].setBackground(Color.WHITE);
+            lblNumeros[i].setForeground(Color.BLACK);
+            lblNumeros[i].setHorizontalAlignment(JLabel.CENTER);
+            lblNumeros[i].setVerticalAlignment(JLabel.CENTER);
+            lblNumeros[i].setFont(new Font("Arial", Font.BOLD, 16));
+
+            lblNumeros[i].setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50), 2));
+
+            lblNumeros[i].setPreferredSize(new java.awt.Dimension(45, 45));
+            lblNumeros[i].setMinimumSize(new java.awt.Dimension(45, 45));
+            lblNumeros[i].setMaximumSize(new java.awt.Dimension(45, 45));
+        }
     }
-}
+
+    public void marcarNumero(int numero) {
+        if (numero >= 1 && numero <= 75) {
+            lblNumeros[numero - 1].setBackground(new Color(76, 175, 80));
+            lblNumeros[numero - 1].setForeground(Color.WHITE);
+        }
+    }
+
+    public void desmarcarNumero(int numero) {
+        if (numero >= 1 && numero <= 75) {
+            lblNumeros[numero - 1].setBackground(Color.WHITE);
+            lblNumeros[numero - 1].setForeground(Color.BLACK);
+        }
+    }
+
+    public void reiniciar() {
+        for (int i = 0; i < 75; i++) {
+            lblNumeros[i].setBackground(Color.WHITE);
+            lblNumeros[i].setForeground(Color.BLACK);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

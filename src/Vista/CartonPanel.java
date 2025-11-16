@@ -7,6 +7,7 @@ package Vista;
 import Modelo.Carton;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,44 +35,43 @@ public class CartonPanel extends javax.swing.JPanel {
     public void inicializarCarton(Carton carton) {
         this.carton = carton;
         this.lblNumeros = new JLabel[5][5];
-        
-        
-    lblNumeros[0][0] = lbl00;
-    lblNumeros[1][0] = lbl01;
-    lblNumeros[2][0] = lbl02;
-    lblNumeros[3][0] = lbl03;
-    lblNumeros[4][0] = lbl04;
-    lblNumeros[0][1] = lbl05;
-    lblNumeros[1][1] = lbl06;
-    lblNumeros[2][1] = lbl07;
-    lblNumeros[3][1] = lbl08;
-    lblNumeros[4][1] = lbl09;
-    lblNumeros[0][2] = lbl10;
-    lblNumeros[1][2] = lbl11;
-    lblNumeros[2][2] = lbl12; // LIBRE
-    lblNumeros[3][2] = lbl13;
-    lblNumeros[4][2] = lbl14;
-    lblNumeros[0][3] = lbl15;
-    lblNumeros[1][3] = lbl16;
-    lblNumeros[2][3] = lbl17;
-    lblNumeros[3][3] = lbl18;
-    lblNumeros[4][3] = lbl19;
-    lblNumeros[0][4] = lbl20;
-    lblNumeros[1][4] = lbl21;
-    lblNumeros[2][4] = lbl22;
-    lblNumeros[3][4] = lbl23;
-    lblNumeros[4][4] = lbl24;
 
-    if (esCartonVacio(carton)) {
-        inicializarVacio();
-        modoManual = true;
-    } else {
-        cargarNumeros();
-        modoManual = false;
+        lblNumeros[0][0] = lbl00;
+        lblNumeros[1][0] = lbl01;
+        lblNumeros[2][0] = lbl02;
+        lblNumeros[3][0] = lbl03;
+        lblNumeros[4][0] = lbl04;
+        lblNumeros[0][1] = lbl05;
+        lblNumeros[1][1] = lbl06;
+        lblNumeros[2][1] = lbl07;
+        lblNumeros[3][1] = lbl08;
+        lblNumeros[4][1] = lbl09;
+        lblNumeros[0][2] = lbl10;
+        lblNumeros[1][2] = lbl11;
+        lblNumeros[2][2] = lbl12; 
+        lblNumeros[3][2] = lbl13;
+        lblNumeros[4][2] = lbl14;
+        lblNumeros[0][3] = lbl15;
+        lblNumeros[1][3] = lbl16;
+        lblNumeros[2][3] = lbl17;
+        lblNumeros[3][3] = lbl18;
+        lblNumeros[4][3] = lbl19;
+        lblNumeros[0][4] = lbl20;
+        lblNumeros[1][4] = lbl21;
+        lblNumeros[2][4] = lbl22;
+        lblNumeros[3][4] = lbl23;
+        lblNumeros[4][4] = lbl24;
+
+        if (esCartonVacio(carton)) {
+            inicializarVacio();
+            modoManual = true;
+        } else {
+            cargarNumeros();
+            modoManual = false;
+        }
+
+        lblIdCarton.setText(carton.getId());
     }
-
-    lblIdCarton.setText(carton.getId());
-}
 
     private boolean esCartonVacio(Carton carton) {
         int[][] numeros = carton.getNumeros();
@@ -149,11 +149,9 @@ public class CartonPanel extends javax.swing.JPanel {
             return false;
         }
 
-        
-        int columnaActual = posicionActual / 5;  // Columna que estamos llenando
-        int filaActual = posicionActual % 5;     // Fila dentro de esa columna
+        int columnaActual = posicionActual / 5;
+        int filaActual = posicionActual % 5;
 
-        // Saltar LIBRE (fila 2, columna 2)
         if (filaActual == 2 && columnaActual == 2) {
             posicionActual++;
             if (posicionActual < 25) {
@@ -164,7 +162,6 @@ public class CartonPanel extends javax.swing.JPanel {
             }
         }
 
-       
         int min = columnaActual * 15 + 1;
         int max = (columnaActual + 1) * 15;
 
@@ -177,7 +174,6 @@ public class CartonPanel extends javax.swing.JPanel {
             return false;
         }
 
-       
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (numerosTemporales[i][j] == numero) {
@@ -190,7 +186,6 @@ public class CartonPanel extends javax.swing.JPanel {
             }
         }
 
-       
         lblNumeros[filaActual][columnaActual].setText(String.valueOf(numero));
         lblNumeros[filaActual][columnaActual].setForeground(Color.BLACK);
         numerosTemporales[filaActual][columnaActual] = numero;
@@ -225,6 +220,21 @@ public class CartonPanel extends javax.swing.JPanel {
                     lblNumeros[i][j].setForeground(Color.BLACK);
                 }
             }
+        }
+    }
+
+    public void resaltarJugadaGanadora(ArrayList<int[]> posiciones) {
+        if (posiciones == null) {
+            return;
+        }
+
+        Color colorGanador = new Color(255, 215, 0);
+
+        for (int[] pos : posiciones) {
+            int fila = pos[0];
+            int col = pos[1];
+            lblNumeros[fila][col].setBackground(colorGanador);
+            lblNumeros[fila][col].setForeground(Color.BLACK);
         }
     }
 

@@ -38,7 +38,6 @@ public class PanelTombola extends javax.swing.JPanel {
             }
         });
 
-
         txtManual.addActionListener(e -> btnIngresar.doClick());
     }
 
@@ -85,6 +84,7 @@ public class PanelTombola extends javax.swing.JPanel {
         btnModoManual.setText("Modo Manual: ON");
         btnModoManual.setBackground(new Color(255, 140, 0));
     }
+
     public JTextField getTxtManual() {
         return txtManual;
     }
@@ -92,6 +92,7 @@ public class PanelTombola extends javax.swing.JPanel {
     public JButton getBtnIngresar() {
         return btnIngresar;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
