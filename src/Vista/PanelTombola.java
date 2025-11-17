@@ -3,81 +3,89 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
+
 import Modelo.Tombola;
 import java.awt.*;
 import javax.swing.*;
+
 /**
  *
  * @author itsth
  */
 public class PanelTombola extends javax.swing.JPanel {
+
     private Tombola tombola;
+
     /**
      * Creates new form PanelTombola
      */
     public PanelTombola() {
         initComponents();
-        
+
     }
-    
+
     public void configurarEventosConFacade(Runnable onNumeroSacado, Runnable onNumeroIngresado) {
-    btnSacarBola.addActionListener(e -> {
-        int numero = tombola.sacarBola();
-        if (numero == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "No quedan más bolas disponibles", 
-                "Tombola Completa", 
-                JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            actualizarInterfaz();
-            onNumeroSacado.run();
-        }
-    });
-    
-    btnIngresar.addActionListener(e -> {
-        try {
-            int numero = Integer.parseInt(txtNumero.getText().trim());
-            if (tombola.ingresarBola(numero)) {
-                txtNumero.setText("");
-                actualizarInterfaz();
-                onNumeroIngresado.run();
+        btnSacarBola.addActionListener(e -> {
+            int numero = tombola.sacarBola();
+            if (numero == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "No quedan más bolas disponibles",
+                        "Tombola Completa",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Número inválido o ya cantado", 
-                    "Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                actualizarInterfaz();
+                onNumeroSacado.run();
             }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un número válido", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-        }
-    });
-    
-    txtNumero.addActionListener(e -> btnIngresar.doClick());
-}
-    
+        });
+
+        txtManual.addActionListener(e -> btnIngresar.doClick());
+    }
+
     public void reiniciar() {
-    actualizarInterfaz();
-}
-    
+        actualizarInterfaz();
+    }
+
     public void setTombola(Tombola tombola) {
         this.tombola = tombola;
         actualizarInterfaz();
     }
-    
+
     public void actualizarInterfaz() {
-    int ultimo = tombola.getUltimoNumeroCantado();
-    lblNumeroActual.setText(ultimo == 0 ? "--" : String.valueOf(ultimo));
-    
-    int cantados = 75 - contarRestantes();
-    lblRestantes.setText("Restantes: " + contarRestantes());
-    lblCantados.setText("Cantados: " + cantados);
+        int ultimo = tombola.getUltimoNumeroCantado();
+        lblNumeroActual.setText(ultimo == 0 ? "--" : String.valueOf(ultimo));
+
+        int cantados = 75 - contarRestantes();
+        lblRestantes.setText("Restantes: " + contarRestantes());
+        lblCantados.setText("Cantados: " + cantados);
     }
-    
+
     private int contarRestantes() {
         return tombola.getBolasDisponibles().size();
+    }
+
+
+    public JTextField getTxtManual() {
+        return txtManual;
+    }
+
+    public JButton getBtnIngresar() {
+        return btnIngresar;
+    }
+    
+    public JComboBox<String> getCmbModoJuego() {
+        return cmbModoJuego;
+    }
+
+    public void configurarModoAutomatico() {
+        btnSacarBola.setEnabled(true);
+        txtManual.setEnabled(false);
+        btnIngresar.setEnabled(false);
+    }
+
+    public void configurarModoManual() {
+        btnSacarBola.setEnabled(false);
+        txtManual.setEnabled(true);
+        btnIngresar.setEnabled(true);
     }
 
     /**
@@ -100,9 +108,11 @@ public class PanelTombola extends javax.swing.JPanel {
         lblCantados = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         lblNumeroActual = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtNumero = new javax.swing.JTextField();
+        txtManual = new javax.swing.JTextField();
         btnIngresar = new javax.swing.JButton();
+        lblNumeroCantado = new javax.swing.JLabel();
+        lblModoJuego = new javax.swing.JLabel();
+        cmbModoJuego = new javax.swing.JComboBox<>();
         btnSacarBola = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
@@ -125,7 +135,7 @@ public class PanelTombola extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         lblRestantes.setBackground(new java.awt.Color(102, 204, 255));
         lblRestantes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -135,7 +145,7 @@ public class PanelTombola extends javax.swing.JPanel {
         lblRestantes.setOpaque(true);
         jPanel3.add(lblRestantes);
 
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         lblCantados.setBackground(new java.awt.Color(153, 153, 153));
         lblCantados.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -156,42 +166,56 @@ public class PanelTombola extends javax.swing.JPanel {
         lblNumeroActual.setText("--");
         lblNumeroActual.setOpaque(true);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel6.setText("MODO MANUAL:");
-
         btnIngresar.setBackground(new java.awt.Color(0, 102, 255));
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("INGRESAR");
 
+        lblNumeroCantado.setText("Numero Cantado:");
+
+        lblModoJuego.setText("Modo de Juego:");
+
+        cmbModoJuego.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automatico", "Manual" }));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblNumeroActual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnIngresar)
-                .addGap(24, 24, 24))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNumeroCantado, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblModoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnIngresar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cmbModoJuego, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5, 5, 5)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIngresar))
+                    .addComponent(lblModoJuego)
+                    .addComponent(cmbModoJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNumeroCantado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtManual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)))
+                .addComponent(lblNumeroActual, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
@@ -208,8 +232,8 @@ public class PanelTombola extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnSacarBola;
+    private javax.swing.JComboBox<String> cmbModoJuego;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -218,8 +242,10 @@ public class PanelTombola extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblCantados;
+    private javax.swing.JLabel lblModoJuego;
     private javax.swing.JLabel lblNumeroActual;
+    private javax.swing.JLabel lblNumeroCantado;
     private javax.swing.JLabel lblRestantes;
-    private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtManual;
     // End of variables declaration//GEN-END:variables
 }

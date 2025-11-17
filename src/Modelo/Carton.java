@@ -11,43 +11,41 @@ import java.util.Random;
  * @author Joan
  */
 public class Carton {
-private String id;
-private int [][] numeros;  
-private boolean [][] marcados; 
-private Random random;
 
-   public Carton(String id) {
+    private String id;
+    private int[][] numeros;
+    private boolean[][] marcados;
+    private Random random;
+
+    public Carton(String id) {
         this.id = id;
         this.numeros = new int[5][5];
         this.marcados = new boolean[5][5];
         this.random = new Random();
 
         generarNumeros();
-        
-       
-        this.marcados[2][2] = true;    
-   }
+
+        this.marcados[2][2] = true;
+    }
 
     private void generarNumeros() {
-        for (int j = 0; j < 5; j++) { 
+        for (int j = 0; j < 5; j++) {
             int min = (j * 15) + 1;
             int max = (j + 1) * 15;
 
-            for (int i = 0; i < 5; i++) { 
-                
-                
+            for (int i = 0; i < 5; i++) {
+
                 if (i == 2 && j == 2) {
-                    this.numeros[i][j] = 0; 
+                    this.numeros[i][j] = 0;
                     continue;
                 }
                 int numeroGenerado;
                 boolean esRepetido;
-                
+
                 do {
                     esRepetido = false;
                     numeroGenerado = random.nextInt(max - min + 1) + min;
-                    
-                   
+
                     for (int k = 0; k < i; k++) {
                         if (this.numeros[k][j] == numeroGenerado) {
                             esRepetido = true;
@@ -56,12 +54,12 @@ private Random random;
                     }
                 } while (esRepetido);
 
-                
                 this.numeros[i][j] = numeroGenerado;
             }
         }
     }
-   public boolean marcarNumero(int numero) {
+
+    public boolean marcarNumero(int numero) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (this.numeros[i][j] == numero) {
@@ -72,20 +70,18 @@ private Random random;
         }
         return false;
     }
-   
-   public void reiniciarMarcas() {
+
+    public void reiniciarMarcas() {
         this.marcados = new boolean[5][5];
         this.marcados[2][2] = true;
     }
-   
-   
-   
-   public Carton(String id, int[][] numerosManuales) {
+
+    public Carton(String id, int[][] numerosManuales) {
         this.id = id;
         this.numeros = numerosManuales;
         this.marcados = new boolean[5][5];
         this.random = new Random();
-        
+
         this.marcados[2][2] = true;
     }
 
@@ -93,7 +89,7 @@ private Random random;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (this.numeros[i][j] == numero) {
-                    if (i != 2 || j != 2) { 
+                    if (i != 2 || j != 2) {
                         this.marcados[i][j] = false;
                     }
                     return;
@@ -113,34 +109,41 @@ private Random random;
             boolean[] numerosColumna = new boolean[76];
 
             for (int i = 0; i < 5; i++) {
-                if (numeros[i].length != 5) return false;
-                
+                if (numeros[i].length != 5) {
+                    return false;
+                }
+
                 int num = numeros[i][j];
 
                 if (i == 2 && j == 2) {
-                    if (num != 0) return false; 
+                    if (num != 0) {
+                        return false;
+                    }
                     continue;
                 }
 
                 if (num < min || num > max) {
-                    return false; 
+                    return false;
                 }
                 if (numerosColumna[num]) {
-                    return false; 
+                    return false;
                 }
                 numerosColumna[num] = true;
             }
         }
         return true;
     }
-    
-    
+
     public int[][] getNumeros() {
         return numeros;
     }
 
+    public void setNumeros(int[][] numeros) {
+        this.numeros = numeros;
+    }
+
     public boolean[][] getMarcados() {
-       return marcados; 
+        return marcados;
     }
 
     public String getId() {

@@ -4,13 +4,16 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author oscar
  */
-public class CartonLlenoValidacion extends ModoJuegoDecorator{
-    int minimoNumeros;
+public class CartonLlenoValidacion extends ModoJuegoDecorator {
 
+   private int minimoNumeros;
+    
     public CartonLlenoValidacion(ModoJuego modo, int minimo) {
         super(modo);
         this.minimoNumeros = minimo;
@@ -20,7 +23,7 @@ public class CartonLlenoValidacion extends ModoJuegoDecorator{
     public boolean verificarGanador(Carton carton) {
         boolean[][] marcados = carton.getMarcados();
         int contador = 0;
-
+        
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (marcados[i][j]) {
@@ -33,6 +36,13 @@ public class CartonLlenoValidacion extends ModoJuegoDecorator{
             return false;
         }
         
+        
         return super.verificarGanador(carton);
+    }
+    
+    @Override
+    public ArrayList<int[]> obtenerPosicionesGanadoras(Carton carton) {
+       
+        return modoDecorado.obtenerPosicionesGanadoras(carton);
     }
 }

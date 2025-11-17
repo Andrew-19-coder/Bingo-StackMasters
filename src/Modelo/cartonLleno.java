@@ -4,17 +4,18 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author oscar
  */
-public class cartonLleno implements ModoJuego{
+public class cartonLleno implements ModoJuego {
 
     @Override
     public boolean verificarGanador(Carton carton) {
         boolean[][] marcados = carton.getMarcados();
         int contador = 0;
-
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (marcados[i][j]) {
@@ -24,5 +25,19 @@ public class cartonLleno implements ModoJuego{
         }
         return contador == 25;
     }
-    
+
+    @Override
+    public ArrayList<int[]> obtenerPosicionesGanadoras(Carton carton) {
+        if (!verificarGanador(carton)) {
+            return null;
+        }
+
+        ArrayList<int[]> posiciones = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                posiciones.add(new int[]{i, j});
+            }
+        }
+        return posiciones;
+    }
 }

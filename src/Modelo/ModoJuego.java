@@ -4,10 +4,13 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Joan
  */
 public interface ModoJuego {
   public boolean verificarGanador(Carton carton);  
+   ArrayList<int[]> obtenerPosicionesGanadoras(Carton carton);
 }
