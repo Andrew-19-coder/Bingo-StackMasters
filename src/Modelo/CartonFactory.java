@@ -9,11 +9,12 @@ package Modelo;
  * @author Joan
  */
 public class CartonFactory {
-    public static Carton crearCarton(String id, String tipo) {
+     public static Carton crearCarton(String id, String tipo) {
         if (tipo.equalsIgnoreCase("automatico")) {
             return new Carton(id);
         } else if (tipo.equalsIgnoreCase("manual")) {
-            return new Carton(id);
+            int[][] numerosVacios = new int[5][5];
+            return new Carton(id, numerosVacios);
         } else {
             throw new IllegalArgumentException("Tipo de cartón no válido: " + tipo);
         }

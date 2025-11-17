@@ -48,6 +48,7 @@ public class Controlador {
         inicializarTombola();
         mostrarTombola();
         tablero.setVisible(true);
+        
     }
 
     private void inicializarTombola() {

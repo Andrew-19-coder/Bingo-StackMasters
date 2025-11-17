@@ -34,9 +34,7 @@ public class JuegoFacade {
 
     public CartonPanel crearCartonManual() {
         String id = "Carton-" + (juego.getCartones().size() + 1);
-        int[][] numerosVacios = new int[5][5];
-
-        Carton nuevoCarton = new Carton(id, numerosVacios);
+         Carton nuevoCarton = CartonFactory.crearCarton(id, "manual");
         juego.getCartones().add(nuevoCarton);
 
         CartonPanel panel = new CartonPanel();

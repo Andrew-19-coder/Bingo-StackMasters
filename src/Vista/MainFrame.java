@@ -56,8 +56,14 @@ public class MainFrame extends javax.swing.JFrame {
         this.jScrollPane2.getViewport().setOpaque(false);
 
         this.panelCentral.setOpaque(false);
-    }
+        
+     
+}
+        
+    
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
