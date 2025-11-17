@@ -18,7 +18,7 @@ public class TableroPanel extends javax.swing.JPanel {
 
     private Tablero tablero;
     private JLabel[] lblNumeros;
-
+    
     /**
      * Creates new form TableroPanel
      */
@@ -26,14 +26,6 @@ public class TableroPanel extends javax.swing.JPanel {
         initComponents();
         inicializarTablero();
     }
-<<<<<<< HEAD
-    
-    public void inicializar(Tablero tablero){
-         this.lblNumeros = new JLabel[5][15];
-         this.tablero = tablero;
-         
-=======
-
     private void inicializarTablero() {
         lblNumeros = new JLabel[75];
 
@@ -149,7 +141,6 @@ public class TableroPanel extends javax.swing.JPanel {
             lblNumeros[i].setBackground(Color.WHITE);
             lblNumeros[i].setForeground(Color.BLACK);
         }
->>>>>>> 8ad948b3a4e81bf6c56ee1b97cf6661892d710e1
     }
 
     /**
