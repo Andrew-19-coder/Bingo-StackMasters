@@ -5,7 +5,7 @@
 package Main;
 
 import Modelo.Carton;
-import Controlador.Controlador;
+import Controladores.Controlador;
 /**
  *
  * @author Joan
