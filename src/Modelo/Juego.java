@@ -20,6 +20,7 @@ public class Juego {
     private ArrayList<int[]> posicionesGanadoras;
     private String tipoJugadaGanadora;
     private static Juego instancia;
+    private boolean juegoTerminado;
 
     private Juego() {
         this.cartones = new ArrayList<>();
@@ -27,6 +28,7 @@ public class Juego {
         this.tablero = new Tablero();
         this.modoActual = null;
         this.cartonGanador = null;
+        this.juegoTerminado = false;
     }
 
     public static Juego getInstance() {
@@ -59,36 +61,35 @@ public class Juego {
         return numeroCantado;
     }
 
-    public void reiniciarJuego() {
-        tombola.reiniciar();
-        tablero.reiniciar();
-        cartonGanador = null;
-        posicionesGanadoras = null;
-        tipoJugadaGanadora = null;
-        for (Carton carton : cartones) {
-            carton.reiniciarMarcas();
-        }
-
-        tombola = new Tombola();
-
-        for (Carton carton : cartones) {
-            tombola.agregarObservador(carton);
-        }
+   public void reiniciarJuego() {
+    tombola.reiniciar();
+    tablero.reiniciar();
+    cartonGanador = null;
+    posicionesGanadoras = null;
+    tipoJugadaGanadora = null;
+    juegoTerminado = false;
+    
+    for (Carton carton : cartones) {
+        carton.reiniciarMarcas();
     }
+}
+
 
     public void verificarGanadores() {
-        if (modoActual == null) {
-            return;
-        }
-        for (Carton carton : cartones) {
-            if (modoActual.verificarGanador(carton)) {
-                this.cartonGanador = carton;
-                this.posicionesGanadoras = modoActual.obtenerPosicionesGanadoras(carton);
-                this.tipoJugadaGanadora = determinarTipoJugada(posicionesGanadoras);
-                break;
-            }
+    if (modoActual == null) {
+        return;
+    }
+    for (Carton carton : cartones) {
+        if (modoActual.verificarGanador(carton)) {
+            this.cartonGanador = carton;
+            this.posicionesGanadoras = modoActual.obtenerPosicionesGanadoras(carton);
+            this.tipoJugadaGanadora = determinarTipoJugada(posicionesGanadoras);
+            this.juegoTerminado = true; 
+            break;
+
         }
     }
+}
 
     public void crearCartonManual() {
         String id = "Carton-" + (cartones.size() + 1);
@@ -179,12 +180,25 @@ public class Juego {
         return tombola;
     }
 
+    public boolean isJuegoTerminado() {
+        return juegoTerminado;
+    }
+
+    public void setJuegoTerminado(boolean terminado) {
+        this.juegoTerminado = terminado;
+
+    }
+
     public Carton getCartonGanador() {
         return cartonGanador;
     }
 
     public void setCartonGanador(Carton carton) {
         this.cartonGanador = carton;
+        if (carton != null) {
+            this.juegoTerminado = true;
+        }
+
     }
 
     public void setPosicionesGanadoras(ArrayList<int[]> posiciones) {

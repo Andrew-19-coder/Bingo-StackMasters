@@ -37,6 +37,15 @@ public class ControladorTombola {
         
         vista.getPanelTombola().configurarEventosConFacade(
             () -> {
+                 if (juego.isJuegoTerminado()) {
+            JOptionPane.showMessageDialog(vista,
+                "El juego ha terminado.\n" +
+                "Ya hay un ganador: " + facade.obtenerIdGanador() + "\n\n" +
+                "Presiona 'Reiniciar' para jugar de nuevo.",
+                "Juego Terminado",
+                JOptionPane.WARNING_MESSAGE);
+            return;  
+        }
                 int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
                 
                 if (facade.hayGanador()) {
@@ -75,6 +84,15 @@ public class ControladorTombola {
     }
     
     private void ingresarNumeroManual() {
+        if (juego.isJuegoTerminado()) {
+        JOptionPane.showMessageDialog(vista,
+            "El juego ha terminado.\n" +
+            "Ya hay un ganador: " + facade.obtenerIdGanador() + "\n\n" +
+            "Presiona 'Reiniciar' para jugar de nuevo.",
+            "Juego Terminado",
+            JOptionPane.WARNING_MESSAGE);
+        return;  
+    }
         String textoNumero = vista.getPanelTombola().getTxtManual().getText().trim();
         
         if (textoNumero.isEmpty()) {

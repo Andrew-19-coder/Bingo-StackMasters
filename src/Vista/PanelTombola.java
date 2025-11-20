@@ -24,22 +24,26 @@ public class PanelTombola extends javax.swing.JPanel {
 
     }
 
-    public void configurarEventosConFacade(Runnable onNumeroSacado, Runnable onNumeroIngresado) {
-        btnSacarBola.addActionListener(e -> {
-            int numero = tombola.sacarBola();
-            if (numero == -1) {
-                JOptionPane.showMessageDialog(this,
-                        "No quedan más bolas disponibles",
-                        "Tombola Completa",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
+   public void configurarEventosConFacade(Runnable onNumeroSacado, Runnable onNumeroIngresado) {
+    btnSacarBola.addActionListener(e -> {
+        onNumeroSacado.run(); 
+        
+        int numero = tombola.sacarBola();
+        
+        if (numero == -1) {
+            JOptionPane.showMessageDialog(this,
+                "No quedan más bolas disponibles",
+                "Tombola Completa",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            javax.swing.SwingUtilities.invokeLater(() -> {
                 actualizarInterfaz();
-                onNumeroSacado.run();
-            }
-        });
-
-        txtManual.addActionListener(e -> btnIngresar.doClick());
-    }
+            });
+        }
+    });
+    
+    txtManual.addActionListener(e -> btnIngresar.doClick());
+}
 
     public void reiniciar() {
         actualizarInterfaz();

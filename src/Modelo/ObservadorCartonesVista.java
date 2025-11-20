@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controladores;
+package Modelo;
 
+import Controladores.JuegoFacade;
 import Modelo.Juego;
 import Modelo.ObservadorBingo;
 import Vista.CartonPanel;
@@ -26,10 +27,15 @@ public class ObservadorCartonesVista implements ObservadorBingo {
         this.facade = facade;
     }
 
-    @Override
-    public void onNumeroCantado(int numero) {
+   @Override
+public void onNumeroCantado(int numero) {
+    System.out.println("🎨 Vista de cartones recibió notificación del número: " + numero);
+    
+   
+    javax.swing.SwingUtilities.invokeLater(() -> {
         actualizarCartonesVista();
-    }
+    });
+}
 
     private void actualizarCartonesVista() {
         for (int i = 0; i < vista.getPanelCentral().getComponentCount(); i++) {
@@ -38,7 +44,7 @@ public class ObservadorCartonesVista implements ObservadorBingo {
             if (comp instanceof CartonPanel) {
                 CartonPanel panel = (CartonPanel) comp;
                 panel.actualizarMarcas();
-
+                panel.repaint();
                 if (juego.getCartonGanador() != null
                         && panel.getCarton().getId().equals(juego.getCartonGanador().getId())) {
                     panel.resaltarGanador();
@@ -48,6 +54,7 @@ public class ObservadorCartonesVista implements ObservadorBingo {
                 }
             }
         }
+         vista.getPanelCentral().repaint();
     }
 
     private void verificarGanador() {

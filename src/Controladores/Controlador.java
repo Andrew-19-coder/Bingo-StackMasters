@@ -4,6 +4,9 @@
  */
 package Controladores;
 
+import Modelo.ObservadorVerificarGanador;
+import Modelo.ObservadorUltimoNumero;
+import Modelo.ObservadorCartonesVista;
 import Modelo.*;
 import Vista.*;
 import javax.swing.*;
