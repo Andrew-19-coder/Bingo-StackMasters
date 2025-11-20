@@ -228,6 +228,8 @@ public class TableroPanel extends javax.swing.JPanel {
         lbl17 = new javax.swing.JLabel();
         lbl18 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(51, 153, 255));
+
         lbl59.setText("jLabel60");
 
         lbl60.setText("jLabel61");
