@@ -40,6 +40,10 @@ public class Tombola {
     }
 
     public int sacarBola() {
+        if (Juego.getInstance().isJuegoTerminado()) {
+            return -1;
+        }
+
         if (bolasDisponibles.isEmpty()) {
             return -1;
         }

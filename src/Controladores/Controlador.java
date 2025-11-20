@@ -68,14 +68,18 @@ public class Controlador {
 
     private void registrarObservadores() {
         Tombola tombola = juego.getTombola();
+
         ObservadorTablero obsTablero = new ObservadorTablero(tablero);
         tombola.agregarObservador(obsTablero);
+
         ObservadorUltimoNumero obsUltimoNumero = new ObservadorUltimoNumero(vista);
         tombola.agregarObservador(obsUltimoNumero);
-        ObservadorCartonesVista obsCartonesVista = new ObservadorCartonesVista(vista, juego, facade);
-        tombola.agregarObservador(obsCartonesVista);
+
         ObservadorVerificarGanador obsVerificarGanador = new ObservadorVerificarGanador(juego, facade, vista);
         tombola.agregarObservador(obsVerificarGanador);
+
+        ObservadorCartonesVista obsCartonesVista = new ObservadorCartonesVista(vista, juego, facade);
+        tombola.agregarObservador(obsCartonesVista);
     }
 
     private void abrirTombola() {
