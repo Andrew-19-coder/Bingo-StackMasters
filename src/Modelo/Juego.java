@@ -68,9 +68,15 @@ public class Juego {
         for (Carton carton : cartones) {
             carton.reiniciarMarcas();
         }
+
+        tombola = new Tombola();
+
+        for (Carton carton : cartones) {
+            tombola.agregarObservador(carton);
+        }
     }
 
-    private void verificarGanadores() {
+    public void verificarGanadores() {
         if (modoActual == null) {
             return;
         }

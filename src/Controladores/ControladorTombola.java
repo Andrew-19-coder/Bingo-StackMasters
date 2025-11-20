@@ -38,15 +38,6 @@ public class ControladorTombola {
         vista.getPanelTombola().configurarEventosConFacade(
             () -> {
                 int ultimoNum = facade.getTombola().getUltimoNumeroCantado();
-                juego.marcarNumero(ultimoNum);
-                controladorCarton.actualizarCartonesVista();
-                
-                if (tableroPanel != null) {
-                    tableroPanel.marcarNumero(ultimoNum);
-                }
-                
-                vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(ultimoNum) + "-" + ultimoNum);
-                vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
                 
                 if (facade.hayGanador()) {
                     String tipoJugada = facade.getTipoJugadaGanadora();
@@ -105,10 +96,7 @@ public class ControladorTombola {
         }
         
         if (juego.getTombola().ingresarBola(numero)) {
-            juego.marcarNumero(numero);
-            controladorCarton.actualizarCartonesVista();
-            vista.getLblUltimoNumero().setText("Último número: " + obtenerLetraBingo(numero) + "-" + numero);
-            vista.getLblUltimoNumero().setFont(new Font("Segoe UI", Font.BOLD, 36));
+            
             vista.getPanelTombola().actualizarInterfaz();
             vista.getPanelTombola().getTxtManual().setText("");
             

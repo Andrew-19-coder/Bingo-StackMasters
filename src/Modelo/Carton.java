@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author Joan
  */
-public class Carton {
+public class Carton implements ObservadorBingo{
 
     private String id;
     private int[][] numeros;
@@ -148,5 +148,10 @@ public class Carton {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public void onNumeroCantado(int numero) {
+        marcarNumero(numero);
     }
 }

@@ -29,6 +29,7 @@ public class JuegoFacade {
     public void crearNuevoCarton() {
         juego.crearCartonAutomatico();
         Carton nuevoCarton = juego.getCartones().get(juego.getCartones().size() - 1);
+        juego.getTombola().agregarObservador(nuevoCarton);
         agregarCartonAVista(nuevoCarton);
     }
 
@@ -36,6 +37,8 @@ public class JuegoFacade {
         String id = "Carton-" + (juego.getCartones().size() + 1);
          Carton nuevoCarton = CartonFactory.crearCarton(id, "manual");
         juego.getCartones().add(nuevoCarton);
+        
+        juego.getTombola().agregarObservador(nuevoCarton);
 
         CartonPanel panel = new CartonPanel();
         panel.inicializarCarton(nuevoCarton);
@@ -105,6 +108,7 @@ public class JuegoFacade {
     }
 
     public void eliminarCarton(Carton carton) {
+        juego.getTombola().removerObservador(carton);
         juego.getCartones().remove(carton);
     }
 

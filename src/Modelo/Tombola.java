@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -18,11 +19,13 @@ public class Tombola {
     private ArrayList<Integer> bolasCantadas;
     private int ultimoNumeroCantado;
     private Random random;
+    private List<ObservadorBingo> observadores;
 
     public Tombola() {
         this.bolasDisponibles = new ArrayList<>();
         this.bolasCantadas = new ArrayList<>();
         this.random = new Random();
+        this.observadores = new ArrayList<>();
         reiniciar();
     }
 
@@ -43,6 +46,7 @@ public class Tombola {
 
         ultimoNumeroCantado = bolasDisponibles.remove(0);
         bolasCantadas.add(ultimoNumeroCantado);
+        notificarObservadores(ultimoNumeroCantado);
         return ultimoNumeroCantado;
     }
 
@@ -54,6 +58,7 @@ public class Tombola {
         bolasDisponibles.remove(Integer.valueOf(numero));
         bolasCantadas.add(numero);
         ultimoNumeroCantado = numero;
+        notificarObservadores(numero);
         return true;
     }
 
@@ -77,6 +82,22 @@ public class Tombola {
 
     public int numerosCantados() {
         return bolasCantadas.size();
+    }
+
+    public void agregarObservador(ObservadorBingo observador) {
+        if (!observadores.contains(observador)) {
+            observadores.add(observador);
+        }
+    }
+
+    public void removerObservador(ObservadorBingo observador) {
+        observadores.remove(observador);
+    }
+
+    private void notificarObservadores(int numero) {
+        for (ObservadorBingo observador : observadores) {
+            observador.onNumeroCantado(numero);
+        }
     }
 
     public ArrayList<Integer> getBolasDisponibles() {

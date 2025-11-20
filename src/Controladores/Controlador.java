@@ -29,6 +29,8 @@ public class Controlador {
         juego.setModoJuego(new ModoJuegoNormal());
         this.facade = new JuegoFacade(vista);
 
+        registrarObservadores();
+
         this.controladorCarton = new ControladorCarton(facade, vista, juego);
         this.controladorTablero = new ControladorTablero(facade, vista, juego, tablero, controladorCarton);
         this.controladorTombola = new ControladorTombola(facade, vista, juego, controladorCarton, tablero);
@@ -59,6 +61,18 @@ public class Controlador {
         dialogTombola.setLocationRelativeTo(vista);
         dialogTombola.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         dialogTombola.setVisible(true);
+    }
+
+    private void registrarObservadores() {
+        Tombola tombola = juego.getTombola();
+        ObservadorTablero obsTablero = new ObservadorTablero(tablero);
+        tombola.agregarObservador(obsTablero);
+        ObservadorUltimoNumero obsUltimoNumero = new ObservadorUltimoNumero(vista);
+        tombola.agregarObservador(obsUltimoNumero);
+        ObservadorCartonesVista obsCartonesVista = new ObservadorCartonesVista(vista, juego, facade);
+        tombola.agregarObservador(obsCartonesVista);
+        ObservadorVerificarGanador obsVerificarGanador = new ObservadorVerificarGanador(juego, facade, vista);
+        tombola.agregarObservador(obsVerificarGanador);
     }
 
     private void abrirTombola() {
